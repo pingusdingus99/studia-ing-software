@@ -24,5 +24,5 @@ app.use('/auth', authRoutes);
 
 // Levantar el servidor
 app.listen(PORT, () => {
-    console.log('Servidor corriendo en http://localhost:${PORT}');
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
