@@ -2,8 +2,9 @@
 Proyecto de página web para registrar hábitos con Express y PostgreSQL
 
 ## Requisitos
-- Node.js >= 18
-- PostgreSQL >= 14
+- [Node.js](https://nodejs.org/) (versión 18 o superior recomendada)
+- [npm](https://www.npmjs.com/)  
+- [Docker](https://www.docker.com/) y [Docker Compose](https://docs.docker.com/compose/)
 
 ## Instalación
 1. Clonar la repo:
@@ -19,12 +20,26 @@ npm install
 ```bash
 cp .env.example .env
 ```
-4. Crear la base de datos:
+## Levantar la base de datos con Docker:
+1. Iniciar Postgres + pgAdmin:
 ```bash
-createdb habits_db
-psql -d habits_db -f schema.sql
+docker-compose up -d
 ```
-5. Levantar el servidor en modo desarrollo:
+2. Acceder a pgAdmin en **http://localhost:8080**
+- usuario:  admin@studia.com
+- contraseña: studiapass
+
+3. Conectar pgAdmin al servidor postgres:
+- Host: db
+- Usuario: studia
+- Constraseña: studiapass
+- Base de datos: habits_db
+
+4. Acceder directamente a la db sin pgAdmin (preferencia):
+```bash
+sudo docker exec -it studia_postgres psql -U studia -d habits_db
+```
+## Ejecutar la aplicación:
 ```bash
 npm run dev
 ```

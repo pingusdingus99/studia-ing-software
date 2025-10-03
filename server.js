@@ -1,22 +1,28 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const dotenv = require('dotenv')
 
-// Middleware básico
+// Cargar variables de entorno
+dotenv.config();
+
+const app = express();
+const PORT = ProcessingInstruction.env.PORT || 3000;
+
+// Middleware para poder leer body de formularios
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }))
+
+// Servir archivos estáticos css
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
-const authRoutes = require('./src/routes/auth');
-const habitsRoutes = require('./src/routes/habits');
+const authRoutes = require ('./src/routes/auth');
+const mainRoutes = require ('./src/routes/main');
+
+app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
-app.use('/habits', habitsRoutes);
 
-// Home
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/index.html'));
+// Levantar el servidor
+app.listen(PORT, () => {
+    console.log('Servidor corriendo en http://localhost:${PORT}');
 });
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

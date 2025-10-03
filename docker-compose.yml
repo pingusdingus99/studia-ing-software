@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: studia_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: studia
+      POSTGRES_PASSWORD: studiapass
+      POSTGRES_DB: habits_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # si se quiere cambiar la estructura de la db se edita schema.sql a la raíz del proyecto
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: studia_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@studia.com
+      PGADMIN_DEFAULT_PASSWORD: studiapass
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
