@@ -34,3 +34,6 @@ exports.registerUser = async (req, res) => {
 };
 
 // Logear usuario TO-DO
+exports.loginUser = (req, res) => {
+    res.send('Login aún no implementado');
+};

@@ -8,6 +8,6 @@ router.get('/login', showLogin);
 
 // Manejar formularios
 router.post('/register', registerUser);
-router.post('/login', loginUser);
+router.post('/login', loginUser)
 
 module.exports = router;
