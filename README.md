@@ -9,7 +9,7 @@ Proyecto de página web para registrar hábitos con Express y PostgreSQL
 1. Clonar la repo:
 ```bash
 git clone https://github.com/pingusdingus99/studia-ing-software.git
-cd habit-tracker
+cd studia-ing-software
 ```
 2. Instalar dependencias:
 ```bash
