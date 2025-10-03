@@ -16,6 +16,11 @@ exports.showLogin = (req, res) => {
 // Registrar usuario
 exports.registerUser = async (req, res) => {
     const { username, email, password } = req.body;
+
+    // Revisar que la contraseña contenga más de 8 caracteres
+    if (!password || password.length < 8)
+        return res.send('La contraseña debe tener más de 8 caracteres. <a href="/auth/register">Volver</a>')
+
     try {
         // Encriptar password
         const hashedPassword = await bcrypt.hash(password, 10);
