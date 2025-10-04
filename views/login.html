@@ -11,5 +11,10 @@
         <button type="submit">Iniciar sesión</button>
     </form>
     <p><a href="/auth/register">Crear cuenta</a></p>
+    <script>
+        localStorage.setItem('studia_current_user', email);
+        window.location.href = '/panel.html';
+     });
+</script>
 </body>
 </html>
