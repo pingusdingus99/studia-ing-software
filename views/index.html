@@ -5,8 +5,191 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Bienvenido a Studia</h1>
-    <p><a href="/auth/register">Registrarse</a> | <a href="/auth/login">Iniciar sesión</a></p>
-    <p>Página principal del tracker de hábitos (barebones)</p>
+    <header class="menu">
+    <h1>Studia</h1>
+    <nav>
+      <ul id="menu-list">
+        <li><a href="/index.html">Inicio</a></li>
+        <li><a href="#habitos">Hábitos</a></li>
+        <li><a href="#perfil">Perfil</a></li>
+        <li id="menu-login"><a href="/login.html">Iniciar sesión</a></li>
+        <li id="menu-register"><a href="/register.html">Registrarse</a></li>
+        <li id="menu-logout" class="hidden"><a href="javascript:void(0)" id="logout">Salir</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div id="file-warning" class="notice hidden">
+      Estás abriendo archivos con <code>file://</code>. Para evitar problemas con localStorage/redirects, sirve los archivos con un servidor local (ej. <code>python -m http.server</code>).
+    </div>
+
+    <section id="home" class="seccion">
+      <h2>Bienvenido a Studia</h2>
+      <div class="welcome" id="welcome-box">
+        <p>Organiza y sigue tus hábitos de forma sencilla.</p>
+        <p class="actions">
+          <a href="/login.html">Iniciar sesión</a> |
+          <a href="/register.html">Crear cuenta</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="habitos" class="seccion hidden">
+      <h2>Lista de Hábitos</h2>
+      <div id="habit-container"></div>
+      <button id="add-habit">➕ Agregar Hábito</button>
+    </section>
+
+    <section id="perfil" class="seccion hidden">
+      <h2>Mi Perfil</h2>
+      <p>Nombre de usuario: <strong id="username"></strong></p>
+      <p>Email: <span id="useremail"></span></p>
+    </section>
+  </main>
+
+  <script>
+    console.log('Studia index cargado (logout fix)');
+
+    if (location.protocol === 'file:') {
+      document.getElementById('file-warning').classList.remove('hidden');
+      console.warn('Archivo abierto con file:// — considera usar python -m http.server');
+    }
+
+    const menuLogin = document.getElementById('menu-login');
+    const menuRegister = document.getElementById('menu-register');
+    const menuLogout = document.getElementById('menu-logout');
+    const welcomeBox = document.getElementById('welcome-box');
+    const habitosSection = document.getElementById('habitos');
+    const perfilSection = document.getElementById('perfil');
+    const habitContainer = document.getElementById('habit-container');
+    const addHabitBtn = document.getElementById('add-habit');
+
+    let listenersInitialized = false;
+    let habits = [];
+
+    const currentEmail = localStorage.getItem('studia_current_user');
+    console.log('studia_current_user =', currentEmail);
+    const users = JSON.parse(localStorage.getItem('studia_users') || '[]');
+    console.log('studia_users =', users);
+
+    let me = null;
+    if (currentEmail) {
+      me = users.find(u => u.email === currentEmail);
+      if (!me) {
+        console.warn('No se encontró usuario en studia_users para el email actual. Creando usuario temporal.');
+        me = { username: (currentEmail.split('@')[0] || 'Usuario'), email: currentEmail };
+      }
+      showLoggedInView(me);
+    } else {
+      showLoggedOutView();
+    }
+
+    function showLoggedInView(user) {
+      menuLogin.classList.add('hidden');
+      menuRegister.classList.add('hidden');
+      menuLogout.classList.remove('hidden');
+      welcomeBox.classList.add('hidden');
+      habitosSection.classList.remove('hidden');
+      perfilSection.classList.remove('hidden');
+
+      document.getElementById('username').textContent = user.username || 'Usuario';
+      document.getElementById('useremail').textContent = user.email || '';
+
+      initHabits(user);
+    }
+
+    function showLoggedOutView() {
+      menuLogin.classList.remove('hidden');
+      menuRegister.classList.remove('hidden');
+      menuLogout.classList.add('hidden');
+      welcomeBox.classList.remove('hidden');
+      habitosSection.classList.add('hidden');
+      perfilSection.classList.add('hidden');
+      habits = [];
+      habitContainer.innerHTML = '';
+      document.getElementById('username').textContent = '';
+      document.getElementById('useremail').textContent = '';
+    }
+
+    function doLogout(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      console.log('Ejecutando logout...');
+      localStorage.removeItem('studia_current_user');
+      showLoggedOutView();
+    }
+    const logoutEl = document.getElementById('logout');
+    if (logoutEl) {
+      logoutEl.addEventListener('click', doLogout);
+    }
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      if (!target) return;
+      if (target.id === 'logout' || (target.closest && target.closest && target.closest('#logout'))) {
+        doLogout(e);
+      }
+    });
+
+    function initHabits(user) {
+      if (listenersInitialized) {
+        loadAndRender(user);
+        return;
+      }
+      listenersInitialized = true;
+
+      function loadAndRender(userForRender = user) {
+        const STORAGE_KEY = `habits_${userForRender.email}`;
+        habits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        renderHabits();
+      }
+
+      function renderHabits(){
+        habitContainer.innerHTML = '';
+        if (habits.length === 0) {
+          habitContainer.innerHTML = '<em>No hay hábitos aún.</em>';
+          return;
+        }
+        habits.forEach((h, idx) => {
+          const div = document.createElement('div');
+          div.className = 'habit';
+          div.innerHTML = `<strong>${escapeHtml(h.title)}</strong> — ${escapeHtml(h.desc || '')} <button data-idx="${idx}" class="del">Eliminar</button>`;
+          habitContainer.appendChild(div);
+        });
+      }
+
+      addHabitBtn.addEventListener('click', () => {
+        const title = prompt('Nombre del hábito');
+        if (!title) return;
+        const desc = prompt('Descripción (opcional)');
+        habits.push({ title: title.trim(), desc: (desc || '').trim() });
+        const STORAGE_KEY = `habits_${user.email}`;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
+        renderHabits();
+      });
+
+      habitContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('del')) {
+          const i = Number(e.target.dataset.idx);
+          if (!Number.isNaN(i)) {
+            habits.splice(i, 1);
+            const STORAGE_KEY = `habits_${user.email}`;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
+            renderHabits();
+          }
+        }
+      });
+
+      loadAndRender(user);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
 </body>
 </html>
