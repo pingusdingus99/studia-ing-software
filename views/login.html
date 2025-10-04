@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Studia - Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Studia - Login</title>
 </head>
 <body>
-    <h1>Iniciar sesión</h1>
-    <form action="/auth/login" method="POST">
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="password" name="password" placeholder="Contraseña" required><br>
-        <button type="submit">Iniciar sesión</button>
-    </form>
-    <p><a href="/auth/register">Crear cuenta</a></p>
-    <script>
-        localStorage.setItem('studia_current_user', email);
-        window.location.href = "/auth/panel.html";
-     });
-</script>
+  <h1>Iniciar sesión</h1>
+  <form id="loginForm">
+    <input type="email" id="email" name="email" placeholder="Email" required><br>
+    <input type="password" id="password" name="password" placeholder="Contraseña" required><br>
+    <button type="submit">Iniciar sesión</button>
+  </form>
+  <p><a href="/register.html">Crear cuenta</a></p>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const stored = JSON.parse(localStorage.getItem('studia_users') || '[]');
+      const user = stored.find(u => u.email === email && u.password === password);
+      if (!user) return alert('Email o contraseña incorrectos');
+
+      localStorage.setItem('studia_current_user', email);
+      window.location.href = '/index.html';
+    });
+  </script>
 </body>
 </html>
