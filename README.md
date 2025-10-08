@@ -23,7 +23,7 @@ cp .env.example .env
 ## Levantar la base de datos con Docker:
 1. Iniciar Postgres + pgAdmin:
 ```bash
-docker-compose up -d
+sudo docker-compose up -d
 ```
 2. Acceder a pgAdmin en **http://localhost:8080**
 - usuario:  admin@studia.com
@@ -44,3 +44,13 @@ sudo docker exec -it studia_postgres psql -U studia -d habits_db
 npm run dev
 ```
 El servidor quedará en **http://localhost:3000**
+
+## Bajar la aplicación
+Hacer un CTRL + C en la terminal que corre el servidor y luego bajar la base de datos, mediante el siguiente comando sobre el directorio del proyecto con:
+```bash
+sudo docker-compose down
+```
+Y si se desea borrar la base de datos:
+```bash
+sudo docker-compose down -v
+```
