@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Check-in de Ánimo</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #FAEEE5; /* fondo neutro y suave */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      text-align: center;
+      width: 400px;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      color: #7d6752;
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .mood-cards {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .mood-cards input { display: none; }
+
+    .mood-cards label {
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 600;
+      padding: 16px;
+      border-radius: 10px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: #7d6752;
+      background-color: #FAEEE5; /* default color */
+    }
+
+    /* Colores por número */
+    #mood1 + label { background-color: #FAEEE5; }
+    #mood2 + label { background-color: #FAD1D8; }
+    #mood3 + label { background-color: #F2C4D6; }
+    #mood4 + label { background-color: #DBC0E7; }
+    #mood5 + label { background-color: #C9E6EE; }
+
+    .mood-cards input:checked + label {
+      transform: scale(1.2);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      color: #fff;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #7d6752;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #C9E6EE;
+      color: #7d6752;
+      border: none;
+      padding: 12px 0;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #DBC0E7;
+      color: #fff;
+    }
+
+    #response { margin-top: 15px; font-size: 14px; color: #7d6752; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¿Cómo te sientes hoy?</h1>
+    <form id="checkinForm">
+      <div class="mood-cards">
+        <input type="radio" id="mood1" name="mood" value="1">
+        <label for="mood1">1</label>
+        <input type="radio" id="mood2" name="mood" value="2">
+        <label for="mood2">2</label>
+        <input type="radio" id="mood3" name="mood" value="3">
+        <label for="mood3">3</label>
+        <input type="radio" id="mood4" name="mood" value="4">
+        <label for="mood4">4</label>
+        <input type="radio" id="mood5" name="mood" value="5">
+        <label for="mood5">5</label>
+      </div>
+      <div class="scale-labels">
+        <span>Muy mal</span>
+        <span>Neutral</span>
+        <span>Excelente</span>
+      </div>
+      <button type="submit">Registrar Check-in</button>
+    </form>
+    <p id="response"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('checkinForm');
+    const response = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const mood = document.querySelector('input[name="mood"]:checked');
+      if (!mood) {
+        response.textContent = 'Por favor selecciona tu nivel de ánimo.';
+        response.style.color = 'red';
+        return;
+      }
+
+      try {
+        const res = await fetch('/checkin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mood: mood.value })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          response.textContent = `Check-in guardado. Ánimo: ${data.mood}`;
+          response.style.color = 'green';
+        } else {
+          response.textContent = data.detail || 'Error al registrar el check-in.';
+          response.style.color = 'red';
+        }
+      } catch (err) {
+        response.textContent = 'Error al conectar con el servidor.';
+        response.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
+
