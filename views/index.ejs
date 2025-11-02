@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studia - Habit Tracker</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Studia</h1>
+        <nav>
+            <% if (user) { %>
+                <span>Hola, <%= user.username %></span>
+                <a href="/auth/logout">Cerrar Sesión</a>
+            <% } else { %>
+                <a href="/auth/login">Login</a>
+                <a href="/auth/register">Registro</a>
+            <% } %>
+        </nav>
+    </header>
+
+    <main class="container">
+        <% if (!user) { %>
+            <div class="welcome-message">
+                <h2>¡Bienvenido a Studia!</h2>
+                <p>Para comenzar a registrar tus hábitos, por favor <a href="/auth/login">inicia sesión</a> o <a href="/auth/register">créate una cuenta</a>.</p>
+            </div>
+        <% } %>
+
+        <div class="main-actions">
+            <% if (user) { %>
+                <p class="add-habit-invite">Presiona el botón para agregar un hábito nuevo.</p>
+                <button id="add-habit-btn" class="add-habit-btn-main">+</button>
+            <% } %>
+        </div>
+        <% if (user) {%>
+            <div class="habits-grid">
+                <div class="grid-header">
+                    <div class="habit-name-header">Hábito</div>
+                    <div class="days-header">
+                        <% dates.forEach(dateString => { %>
+                            <% const date = new Date(dateString + 'T00:00:00'); %>
+                            <div class="day-label">
+                                <span class="day-label-weekday"><%= date.toLocaleDateString('es-ES', { weekday: 'short' }) %></span>
+                                <span class="day-label-day"><%= date.getDate() %></span>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="grid-body">
+                    <% if (habits.length === 0 && user) { %>
+                        <p style="padding: 1rem;">Aún no tienes hábitos. ¡Crea uno nuevo!</p>
+                    <% } %>
+                    <% habits.forEach(habit => { %> 
+                        <div class="habit-row">
+                            <div class="habit-name"><%= habit.name %></div>
+                            <div class="habit-days">
+                                <% dates.forEach(dateString => { %>
+                                    <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
+                                    <div 
+                                        class="day-check <%= isCompleted ? 'completed' : '' %>"
+                                        data-habit-id="<%= habit.id %>"
+                                        data-date="<%= dateString %>"
+                                        role="button"
+                                        tabindex="0"
+                                        aria-label="Marcar hábito <%= habit.name %> como <%= isCompleted ? 'no completado' : 'completado' %> para el día <%= dateString %>"
+                                    >
+                                    </div> 
+                                <% }) %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } %>
+    </main>
+
+    <% if (user) { %>
+    <div id="add-habit-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h2>Añadir Nuevo Hábito</h2>
+            <form action="/habits/add" method="POST">
+                <div class="form-group">
+                    <label for="habitName">Nombre del Hábito</label>
+                    <input type="text" id="habitName" name="habitName" placeholder="Ej: Estudiar" required minlength="3" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="habitDescription">Descripción (Opcional)</label>
+                    <textarea id="habitDescription" name="habitDescription" rows="3" placeholder="Ej: Estudiar por al menos 30 minutos"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-btn">Cancelar</button>
+                    <button type="submit">Guardar Hábito</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <% } %>
+</body>
+<!-- Script para la interactividad -->
+<script src="/js/main.js"></script>
+</html>
