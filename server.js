@@ -13,6 +13,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+// Configuración del view engine (EJS)
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Configuración de sesiones (para desarrollo local)
 // En producción, usar un session store (ej. connect-pg-simple, redis) en vez del MemoryStore por defecto.
 const SESSION_SECRET = process.env.SESSION_SECRET || process.env.SECRET_KEY || 'cambio-esto-en-produccion';
@@ -33,9 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas
 const authRoutes = require ('./src/routes/auth');
 const mainRoutes = require ('./src/routes/main');
+const habitRoutes = require('./src/routes/habitRoutes');
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
+app.use('/habits', habitRoutes);
 
 // Levantar el servidor
 app.listen(PORT, () => {
