@@ -1,0 +1,156 @@
+body {
+    background-color: #f4f7f6;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Menú Lateral (Sidebar) --- */
+.sidebar {
+    width: 240px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #34495e;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #ecf0f1;
+    transition: background-color 0.3s;
+}
+
+.sidebar-nav li.active a,
+.sidebar-nav li a:hover {
+    background-color: #34495e;
+}
+
+#logout-btn {
+    color: #e74c3c;
+    cursor: pointer;
+}
+
+/* --- Contenido Principal --- */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+}
+
+.main-content header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+/* --- Secciones --- */
+.habits-section, .add-habit-section, .checkin-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* --- Estilos Check-in Emocional --- */
+.checkin-section {
+    text-align: center;
+}
+
+.emoji-selector {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.emoji-btn {
+    background: none;
+    border: 2px solid transparent;
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 10px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.emoji-btn:hover {
+    transform: scale(1.15);
+}
+
+.emoji-btn.selected {
+    border-color: #3498db;
+    background-color: #f4f7f6;
+}
+
+.checkin-status-text {
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.9em;
+    min-height: 1.2em;
+}
+
+
+/* --- Lista de Hábitos --- */
+#habits-list {
+    min-height: 50px;
+}
+
+.habit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.habit-item:last-child {
+    border-bottom: none;
+}
+
+.habit-item span {
+    font-size: 1.1em;
+}
+
+/* --- Formulario para Agregar Hábito --- */
+#add-habit-form {
+    display: flex;
+    gap: 10px;
+}
+
+#add-habit-form input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#add-habit-form button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
