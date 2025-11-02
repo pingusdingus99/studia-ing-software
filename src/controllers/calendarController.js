@@ -9,7 +9,7 @@ exports.showCalendar = (req, res) => {
 exports.infoHabito = async (req, res) => {
     try {
         // Obtenemos el ID de los parámetros de la URL
-        const id = 1;//req.params.id;
+        const id = req.params.id;
         
         // 1. La consulta SQL correcta (seleccionando columnas específicas)
         const sqlQuery = 'SELECT date, status FROM registers WHERE habit_id = $1';
@@ -17,7 +17,6 @@ exports.infoHabito = async (req, res) => {
         const registros = await db.query(sqlQuery, [id]);
 
         // 2. Enviamos solo las filas (rows) como JSON
-        // Esto es lo que tu 'fetch' en calendar.js recibirá
         res.json(registros.rows); 
 
     } catch (error) {

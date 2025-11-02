@@ -52,8 +52,6 @@ function updateCalendar() { // calcula y muestra los días que hay en cada mes
     const isToday = (currentYear === todayY && currentMonth === todayM && i === todayD);
     const activeClass = isToday ? 'active' : '';
 
-    // --- INICIO DE LA MODIFICACIÓN ---
-
     // 1. Crear un string de fecha "YYYY-MM-DD" para el día actual del bucle
     const dayStr = i.toString().padStart(2, '0');
     const monthStr = (currentMonth + 1).toString().padStart(2, '0'); // +1 porque getMonth() es 0-based
@@ -62,7 +60,6 @@ function updateCalendar() { // calcula y muestra los días que hay en cada mes
     // 2. Buscar esta fecha en nuestros registros guardados
     // Usamos .find() que es rápido y devuelve el primer registro que coincida
     const registroDelDia = currentRegistros.find(reg => {
-        // --- ¡ESTA ES LA CORRECCIÓN! ---
         // reg.date es "2025-11-01T03:00:00.000Z"
         // Extraemos solo la parte "YYYY-MM-DD"
         const registroDateStr = reg.date.substring(0, 10);
@@ -80,8 +77,6 @@ function updateCalendar() { // calcula y muestra los días que hay en cada mes
     // 4. Añadir las nuevas clases y un ID al HTML
     // (El ID `id="date-${dateString}"` es muy útil para el futuro)
     datesHTML += `<div class="date ${activeClass} ${habitClass}" id="date-${dateString}">${i}</div>`;
-    //datesHTML += `<div class="date ${activeClass}">${i}</div>`;
-    // --- FIN DE LA MODIFICACIÓN ---
   }
 
   // Días del siguiente mes
