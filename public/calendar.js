@@ -4,8 +4,9 @@ const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
 let currentDate = new Date();
+let currentRegistros = [];
 
-function updateCalendar() {
+function updateCalendar() { // calcula y muestra los días que hay en cada mes
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth(); // 0-based
 
@@ -50,7 +51,37 @@ function updateCalendar() {
   for (let i = 1; i <= totalDays; i++) {
     const isToday = (currentYear === todayY && currentMonth === todayM && i === todayD);
     const activeClass = isToday ? 'active' : '';
-    datesHTML += `<div class="date ${activeClass}">${i}</div>`;
+
+    // --- INICIO DE LA MODIFICACIÓN ---
+
+    // 1. Crear un string de fecha "YYYY-MM-DD" para el día actual del bucle
+    const dayStr = i.toString().padStart(2, '0');
+    const monthStr = (currentMonth + 1).toString().padStart(2, '0'); // +1 porque getMonth() es 0-based
+    const dateString = `${currentYear}-${monthStr}-${dayStr}`;
+
+    // 2. Buscar esta fecha en nuestros registros guardados
+    // Usamos .find() que es rápido y devuelve el primer registro que coincida
+    const registroDelDia = currentRegistros.find(reg => {
+        // --- ¡ESTA ES LA CORRECCIÓN! ---
+        // reg.date es "2025-11-01T03:00:00.000Z"
+        // Extraemos solo la parte "YYYY-MM-DD"
+        const registroDateStr = reg.date.substring(0, 10);
+        // Comparamos "2025-11-01" === "2025-11-01"
+        return registroDateStr === dateString;
+    });
+
+    // 3. Añadir la clase de hábito si se encuentra un registro
+    let habitClass = '';
+    if (registroDelDia) {
+        // Asumiendo que tu DB devuelve 'status: true' para completado
+        habitClass = registroDelDia.status ? 'completado' : 'no-completado';
+    }
+    
+    // 4. Añadir las nuevas clases y un ID al HTML
+    // (El ID `id="date-${dateString}"` es muy útil para el futuro)
+    datesHTML += `<div class="date ${activeClass} ${habitClass}" id="date-${dateString}">${i}</div>`;
+    //datesHTML += `<div class="date ${activeClass}">${i}</div>`;
+    // --- FIN DE LA MODIFICACIÓN ---
   }
 
   // Días del siguiente mes
@@ -72,3 +103,36 @@ nextBtn?.addEventListener('click', () => {
 });
 
 updateCalendar();
+
+//la siguiente función se utilizará cuando se implemente botonVerHabito:
+/*const boton = document.getElementById('botonVerHabito')
+boton.addEventListener('click', () => {
+  const idHabito = boton.dataset.idHabito;
+  if (idHabito) {
+    cargarYpintarHabito(idHabito);
+  } else { console.error("No se pudo encontrar el ID del hábito en el botón.")}
+
+});*/
+
+async function cargarYpintarHabito(id) {
+    try {
+        const respuesta = await fetch(`/api/habitos/${id}`); 
+        
+        if (respuesta.ok) {
+            currentRegistros = await respuesta.json(); // Guarda los registros globalmente
+            console.log("currentRegistros:", currentRegistros); // para identificar si se guardan correctamente
+        } else {
+            console.error("Error al cargar hábitos:", respuesta.status);
+            currentRegistros = []; // Limpia en caso de error
+        }
+    } catch (error) {
+        console.error("Error de fetch (red):", error);
+        currentRegistros = [];
+    }
+    
+    // Llama a updateCalendar para que vuelva a dibujar el mes
+    updateCalendar();
+}
+
+const idPrueba = 1;
+cargarYpintarHabito(idPrueba);

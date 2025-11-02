@@ -27,15 +27,18 @@ app.use(session({
     }
 }));
 
-// Servir archivos estáticos css
+// Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
 const authRoutes = require ('./src/routes/auth');
 const mainRoutes = require ('./src/routes/main');
+const calendarRoutes = require ('./src/routes/calendarRoutes');
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
+app.use('/calendar', calendarRoutes);
+app.use('/api', calendarRoutes);
 
 // Levantar el servidor
 app.listen(PORT, () => {

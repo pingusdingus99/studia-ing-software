@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1;200;1,300;0,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1;200;1,300;0,400;1,500;1,600;1,700;1,800;1,900&display=swap");*/
 
 * {
     margin: 0;
@@ -92,7 +92,7 @@ body {
 }
 
 .date.active {
-    background: #6f97c4;
+    background: #818181;
     color: #fff;
 }
 
@@ -103,3 +103,21 @@ body {
 .date.inactive:hover {
     color: #fff;
 }
+
+/* --- AÑADE ESTO AL FINAL DE TU ARCHIVO --- */
+
+/* Estilo para un día completado (verde) */
+.date.completado {
+    background: #6f97c4;  /* Un verde "éxito" */
+    color: #fff;         /* Texto blanco para buen contraste */
+    /*border-radius: 50%;*/ /* Opcional: hazlos círculos */
+}
+
+/* Estilo para un día no completado (rojo) */
+.date.no-completado {
+    background: #ee4051;  /* Un rojo "fallo" */
+    color: #fff;
+    /*border-radius: 50%;*/ /* Opcional: hazlos círculos */
+}
+
+/* --- FIN DE LA MODIFICACIÓN --- */
