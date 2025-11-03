@@ -4,29 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Hábitos</title>
-    <link rel="stylesheet" href="/dashboard.css">
+    
+    <link rel="stylesheet" href="\css\dashboard.css">
+
 </head>
 <body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3>Habit Tracker</h3>
+
+    <header class="main-header">
+        <div class="brand-logo">studia</div>
+        <nav class="user-nav">
+            <span class="user-name">Test1</span>
+            <a href="/logout" class="logout-link">Cerrar sesión</a>
+        </nav>
+    </header>
+    <main class="dashboard-panel">
+        <h1>Mi Panel de Hábitos</h1>
+        
+        <div class="habits-list">
+            <p>Aquí cargarán tus hábitos...</p>
+            
+            <div class="habit-item">
+                <span>Leer 30 minutos</span>
+                <button>Completar</button>
             </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="active"><a href="/dashboard">Mis Hábitos</a></li>
-                    <li><a id="logout-btn">Cerrar Sesión</a></li>
-                </ul>
-            </nav>
-        </aside>
 
-        <main class="main-content">
-            <header>
-                <h1>Hola, ¡Bienvenido!</h1>
-                <p>Gestiona tus hábitos y alcanza tus metas.</p>
-            </header>
-
-            <section class="checkin-section">
+            <div class="habit-item">
+                <span>Hacer ejercicio</span>
+                <button>Completar</button>
+            </div>
+        </div>
+        <section class="checkin-section">
                 <h2>¿Cómo te sientes hoy?</h2>
                 <div class="emoji-selector">
                     <button class="emoji-btn" data-emoji="😃">😃</button>
@@ -37,25 +44,8 @@
                 </div>
                 <p id="checkin-status" class="checkin-status-text"></p>
             </section>
-
-            <section class="habits-section">
-                <h2>Mis Hábitos Actuales</h2>
-                <div id="habits-list">
-                    <p>Cargando hábitos...</p>
-                </div>
-            </section>
-
-            <section class="add-habit-section">
-                <h2>Agregar un Nuevo Hábito</h2>
-                <form id="add-habit-form">
-                    <input type="text" id="habit-name" placeholder="Ej: Leer 30 minutos" required>
-                    <button type="submit">Agregar Hábito</button>
-                </form>
-            </section>
-        </main>
-    </div>
-
-    <script src="/js/dashboard.js"></script>
+    </main>
+    
+    <script src="dashboard.js"></script>
 </body>
-
 </html>
