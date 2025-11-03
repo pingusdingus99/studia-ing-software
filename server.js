@@ -32,8 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas
 const authRoutes = require ('./src/routes/auth');
 const mainRoutes = require ('./src/routes/main');
-const mainRoutes = require ('./src/routes/emotionalCheckin');
-const mainRoutes = require ('./src/routes/habits');
+const emotionalCheckinRoutes = require ('./src/routes/emotionalCheckin');
+const habitsRoutes = require ('./src/routes/habits');
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
