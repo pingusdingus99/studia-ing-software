@@ -62,7 +62,7 @@ function updateCalendar() { // calcula y muestra los días que hay en cada mes
     const registroDelDia = currentRegistros.find(reg => {
         // reg.date es "2025-11-01T03:00:00.000Z"
         // Extraemos solo la parte "YYYY-MM-DD"
-        const registroDateStr = reg.date.substring(0, 10);
+        const registroDateStr = reg.completion_date.substring(0, 10);
         // Comparamos "2025-11-01" === "2025-11-01"
         return registroDateStr === dateString;
     });
@@ -100,14 +100,13 @@ nextBtn?.addEventListener('click', () => {
 updateCalendar();
 
 //la siguiente función se utilizará cuando se implemente botonVerHabito:
-/*const boton = document.getElementById('botonVerHabito')
+const boton = document.getElementById('botonVerHabito')
 boton.addEventListener('click', () => {
   const idHabito = boton.dataset.idHabito;
   if (idHabito) {
     cargarYpintarHabito(idHabito);
   } else { console.error("No se pudo encontrar el ID del hábito en el botón.")}
-
-});*/
+});
 
 async function cargarYpintarHabito(id) {
     try {
@@ -129,5 +128,5 @@ async function cargarYpintarHabito(id) {
     updateCalendar();
 }
 
-const idPrueba = 1;
-cargarYpintarHabito(idPrueba);
+//const idPrueba = 1;
+//cargarYpintarHabito(idPrueba);

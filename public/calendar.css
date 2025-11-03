@@ -104,20 +104,16 @@ body {
     color: #fff;
 }
 
-/* --- AÑADE ESTO AL FINAL DE TU ARCHIVO --- */
-
 /* Estilo para un día completado (verde) */
 .date.completado {
-    background: #6f97c4;  /* Un verde "éxito" */
-    color: #fff;         /* Texto blanco para buen contraste */
-    /*border-radius: 50%;*/ /* Opcional: hazlos círculos */
+    background: #6f97c4;
+    color: #fff;
+    /*border-radius: 50%;*/
 }
 
 /* Estilo para un día no completado (rojo) */
 .date.no-completado {
-    background: #ee4051;  /* Un rojo "fallo" */
+    background: #ee4051;
     color: #fff;
-    /*border-radius: 50%;*/ /* Opcional: hazlos círculos */
+    /*border-radius: 50%;*/
 }
-
-/* --- FIN DE LA MODIFICACIÓN --- */

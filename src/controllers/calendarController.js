@@ -12,7 +12,7 @@ exports.infoHabito = async (req, res) => {
         const id = req.params.id;
         
         // 1. La consulta SQL correcta (seleccionando columnas específicas)
-        const sqlQuery = 'SELECT date, status FROM registers WHERE habit_id = $1';
+        const sqlQuery = 'SELECT completion_date, status FROM habit_completions WHERE habit_id = $1';
         
         const registros = await db.query(sqlQuery, [id]);
 
