@@ -3,7 +3,6 @@ const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
 
-// Cargar variables de entorno
 dotenv.config();
 
 const app = express();
@@ -33,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas
 const authRoutes = require ('./src/routes/auth');
 const mainRoutes = require ('./src/routes/main');
+const mainRoutes = require ('./src/routes/emotionalCheckin');
+const mainRoutes = require ('./src/routes/habits');
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
