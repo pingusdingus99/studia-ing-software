@@ -1,0 +1,209 @@
+/* --- CONFIGURACIÓN BASE DEL MODAL --- */
+/* Estas clases aseguran que el contenido ocupe todo el modal sin bordes blancos */
+.modal-no-padding {
+    padding: 0 !important;
+    border: none !important;
+    background-color: transparent !important; /* El fondo lo darán las vistas */
+}
+
+/* --- CONTENEDORES DE VISTAS (Overlays) --- */
+/* IMPORTANTE: Usamos relative en lugar de absolute para evitar que se corte el contenido */
+.start-overlay {
+    position: relative; 
+    width: 100%;
+    min-height: 480px; /* Altura mínima base */
+    background: white;
+    display: flex;
+    flex-direction: column;
+    /* Centrado por defecto, pero flexible */
+    align-items: center; 
+    justify-content: center;
+    border-radius: 8px; /* Opcional: suavizar bordes si el modal los tiene */
+    transition: background-color 0.3s ease; /* Transición suave de color */
+}
+
+.start-overlay.hidden {
+    display: none !important;
+}
+
+/* --- SELECCIÓN DE EJERCICIO (Tarjetas) --- */
+.selection-view-content {
+    padding: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selection-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 320px;
+}
+
+.selection-card {
+    position: relative;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px;
+    border: none;
+    background-size: cover;
+}
+
+.selection-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Colores de Tarjetas */
+#btn-select-equitativa { background-color: #2d5a52; }
+#btn-select-cuadrada { background-color: #2c3e50; }
+
+/* Iconos y Textos de Tarjetas */
+.card-icon { margin-bottom: 15px; opacity: 0.9; }
+.icon-lines {
+    display: inline-block; width: 30px; height: 20px;
+    border-top: 4px solid white; border-bottom: 4px solid white; box-sizing: border-box;
+}
+.icon-square {
+    display: inline-block; width: 25px; height: 25px;
+    border: 4px solid white; box-sizing: border-box;
+}
+.card-title { font-size: 1.4rem; font-weight: bold; margin: 0 0 5px 0; line-height: 1.2; }
+.card-desc { font-size: 0.85rem; opacity: 0.7; margin: 0; line-height: 1.4; }
+
+/* Botón 'i' en tarjeta */
+.info-btn {
+    position: absolute; top: 15px; right: 15px; width: 30px; height: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.6); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: serif; font-weight: bold; color: white; background: transparent;
+    cursor: pointer; z-index: 10;
+}
+.info-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
+
+
+/* --- VISTA DE INFORMACIÓN (Full Color) --- */
+#info-view {
+    padding: 20px;
+    align-items: stretch; /* Ocupar todo el ancho */
+    justify-content: flex-start;
+    color: white;
+    text-align: left;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.info-close-x {
+    background: none; border: none; color: white; font-size: 2rem;
+    line-height: 1; cursor: pointer; padding: 0; opacity: 0.8;
+}
+.info-close-x:hover { opacity: 1; transform: scale(1.1); }
+
+.info-title-main { margin: 0; font-size: 1.5rem; font-weight: bold; }
+
+.info-content-scroll {
+    flex-grow: 1;
+    overflow-y: auto; /* Scroll si el texto es muy largo */
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+}
+.info-content-scroll p { margin-bottom: 1rem; }
+.info-content-scroll strong { color: white; font-weight: 700; }
+
+.info-footer { display: flex; justify-content: center; margin-top: auto; padding-bottom: 10px;}
+
+.btn-start-white {
+    background-color: white; color: #333; border: none; padding: 12px 30px;
+    border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s;
+}
+.btn-start-white:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+
+
+/* --- VISTA DE EJERCICIO (Ahora con fondo dinámico) --- */
+.health-tool-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    min-height: 480px; /* Altura consistente */
+    transition: background-color 0.5s ease; /* Transición suave de fondo */
+    border-radius: 8px;
+}
+
+.health-tool-container.hidden { display: none !important; }
+
+/* Wrapper del círculo */
+.breathing-circle-wrapper {
+    position: relative; height: 250px; width: 250px;
+    display: flex; align-items: center; justify-content: center; margin: 20px 0;
+}
+
+/* El Círculo */
+.circle {
+    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparente para adaptarse al fondo */
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    height: 150px; width: 150px;
+    border-radius: 50%;
+    position: absolute; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 3rem; font-weight: bold;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    transition: transform 4s linear;
+    transform: scale(1);
+}
+
+.circle.expand { transform: scale(1.6); }
+
+/* Texto de instrucción */
+.instruction-label {
+    margin-top: 10px; font-size: 1.5rem; font-weight: bold;
+    color: white; /* Ahora siempre blanco por el fondo oscuro */
+    text-transform: uppercase; letter-spacing: 2px; height: 30px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Controles */
+.exercise-controls { display: flex; gap: 10px; margin-top: 30px; justify-content: center; }
+
+/* Botones adaptados a fondo oscuro */
+.btn-action-primary {
+    background-color: white; color: #333; /* Invertido para resaltar */
+    border: none; padding: 10px 25px; border-radius: 50px;
+    font-size: 1rem; font-weight: bold; cursor: pointer; min-width: 120px;
+    transition: all 0.2s;
+}
+.btn-action-primary:hover { transform: scale(1.05); background-color: #f0f0f0; }
+
+.btn-action-primary.stop-mode {
+    background-color: rgba(220, 53, 69, 0.9); color: white; /* Rojo para parar */
+}
+.btn-action-primary.stop-mode:hover { background-color: #dc3545; }
+
+.btn-action-secondary {
+    background-color: transparent; color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 10px 20px; border-radius: 50px; font-size: 1rem; cursor: pointer;
+}
+.btn-action-secondary:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
