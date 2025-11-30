@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studia - Habit Tracker</title>
     <link rel="stylesheet" href="/css/main.css">
+    <!-- CSS separado para la respiración -->
+    <link rel="stylesheet" href="/css/respiración.css">
+    <!-- Eliminados estilos inline <style> ya que ahora están en respiración.css -->
 </head>
 <body>
     <header class="app-header">
@@ -12,6 +15,7 @@
         <nav>
             <% if (user) { %>
                 <span>Hola, <%= user.username %></span>
+                <a href="#" id="open-health-btn" class="health-link">Ejercicios</a>
                 <a href="/auth/logout">Cerrar Sesión</a>
             <% } else { %>
                 <a href="/auth/login">Login</a>
@@ -77,6 +81,7 @@
     </main>
 
     <% if (user) { %>
+    <!-- Modal Agregar Hábito -->
     <div id="add-habit-modal" class="modal-backdrop hidden">
         <div class="modal-content">
             <h2>Añadir Nuevo Hábito</h2>
@@ -96,8 +101,88 @@
             </form>
         </div>
     </div>
+
+    <!-- MODAL: Salud Mental -->
+    <!-- NOTA: Agregamos 'modal-no-padding' para quitar padding por defecto y permitir fondo completo -->
+    <div id="health-modal" class="modal-backdrop hidden">
+        <div class="modal-content modal-no-padding" style="max-width: 500px; position: relative; overflow: hidden;">
+            
+            <!-- Botón cerrar modal general (X gris) - Visible en menú principal y ejercicio -->
+            <button id="close-health-modal-x" style="position: absolute; top: 15px; right: 15px; border: none; background: none; font-size: 1.5rem; cursor: pointer; color: #999; z-index: 50; transition: color 0.3s;">&times;</button>
+
+            <!-- Vista 1: Selección de Ejercicio -->
+            <div id="selection-view" class="start-overlay">
+                <!-- Wrapper interno para centrar contenido -->
+                <div class="selection-view-content">
+                    <h2 style="margin-bottom: 1.5rem; color: #333;">Elige tu ejercicio</h2>
+                    
+                    <div class="selection-buttons">
+                        <!-- Tarjeta Equitativa -->
+                        <div id="btn-select-equitativa" class="selection-card" role="button">
+                            <div class="card-icon"><span class="icon-lines"></span></div>
+                            <button class="info-btn" data-info="equitativa">i</button>
+                            <div>
+                                <h3 class="card-title">Respiración<br>Equitativa</h3>
+                                <p class="card-desc">Equilibra tu mente. Inhala y exhala en tiempos iguales para calmarte.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Cuadrada -->
+                        <div id="btn-select-cuadrada" class="selection-card" role="button">
+                            <div class="card-icon"><span class="icon-square"></span></div>
+                            <button class="info-btn" data-info="cuadrada">i</button>
+                            <div>
+                                <h3 class="card-title">Respiración<br>Cuadrada</h3>
+                                <p class="card-desc">Enfoque total. Una poderosa técnica de 4 fases para el control.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista 2: Información del Ejercicio -->
+            <div id="info-view" class="start-overlay hidden">
+                <div class="info-header">
+                    <button id="btn-close-info" class="info-close-x">&times;</button>
+                    <h2 id="info-title-display" class="info-title-main">Título Info</h2>
+                </div>
+                
+                <div id="info-content-display" class="info-content-scroll">
+                    <!-- JS rellena esto -->
+                </div>
+                
+                <div class="info-footer">
+                    <button id="btn-start-from-info" class="btn-start-white">Empezar Ejercicio</button>
+                </div>
+            </div>
+
+            <!-- Vista 3: Ejercicio Activo -->
+            <div id="exercise-view" class="health-tool-container hidden">
+                <h3 id="exercise-title-display" style="margin-bottom: 10px; color: white;">Respiración</h3>
+                
+                <div class="breathing-circle-wrapper">
+                    <div class="circle" id="breath-circle">
+                        <span id="timer-text">Listo</span>
+                    </div>
+                </div>
+                
+                <div id="instruction-text" class="instruction-label">Presiona Comenzar</div>
+                
+                <div class="exercise-controls">
+                    <button id="btn-toggle-exercise" class="btn-action-primary">Comenzar</button>
+                    <button id="btn-back-menu" class="btn-action-secondary">Volver</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <% } %>
+
 </body>
-<!-- Script para la interactividad -->
+<!-- Scripts principales -->
 <script src="/js/main.js"></script>
+
+<% if (user) { %>
+    <script src="/js/respiración.js"></script>
+<% } %>
 </html>
