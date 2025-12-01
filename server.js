@@ -38,10 +38,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 const authRoutes = require ('./src/routes/auth');
 const mainRoutes = require ('./src/routes/main');
 const habitRoutes = require('./src/routes/habitRoutes');
+const calendarRoutes = require('./src/routes/calendarRoutes');
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
 app.use('/habits', habitRoutes);
+app.use('/calendar', calendarRoutes);
+app.use('/api', calendarRoutes);
 
 // Levantar el servidor
 app.listen(PORT, () => {
