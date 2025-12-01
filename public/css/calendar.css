@@ -1,0 +1,289 @@
+/* Importamos la fuente Poppins para mantener consistencia */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+    /* Variables para facilitar cambios futuros */
+    --primary-color: #0d6efd;   /* Azul Studia */
+    --primary-hover: #0b5ed7;
+    --success-color: #2ecc71;   /* Verde esmeralda */
+    --error-color: #e74c3c;     /* Rojo suave */
+    --bg-body: #f4f7f6;         /* Gris muy claro */
+    --text-main: #2c3e50;
+    --text-muted: #95a5a6;
+    --white: #ffffff;
+    --header-height: 70px;      /* Altura fija para el header */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* IMPORTANTE: Apilar Header y Contenido verticalmente */
+    background-color: var(--bg-body); 
+}
+
+/* --- HEADER (Copiado y adaptado del estilo principal) --- */
+.app-header {
+    background-color: var(--white);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky; /* Se queda fijo arriba si haces scroll */
+    top: 0;
+    z-index: 100;
+}
+
+.app-header h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.app-header nav a {
+    text-decoration: none;
+    color: var(--text-main);
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.2s;
+    font-size: 0.95rem;
+}
+
+.app-header nav a:hover {
+    color: var(--primary-color);
+}
+
+/* Enlace especial de volver */
+.nav-back-link {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color:#2c3e50;
+    margin: 0;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+.nav-back-link:hover { color: #2c3e50; }
+
+
+/* --- CONTENEDOR PRINCIPAL --- */
+/* Esto centra el calendario en el espacio sobrante bajo el header */
+main {
+    flex: 1; /* Ocupa todo el espacio restante */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    width: 100%;
+}
+
+/* --- TÍTULO DEL HÁBITO --- */
+.habit-title-container {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.6s ease;
+}
+
+.habit-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.habit-name-display {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+/* Pequeño adorno subrayado para el título */
+.habit-name-display::after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 4px;
+    background: var(--primary-color);
+    bottom: -10px;
+    left: 20%; /* Centrado */
+    border-radius: 2px;
+}
+
+/* --- CALENDARIO (Ajustes menores) --- */
+.calendar {
+    width: 100%;
+    max-width: 900px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05); /* Sombra más elegante */
+    border: 1px solid rgba(0,0,0,0.02);
+    animation: fadeInUp 0.6s ease; /* Animación de entrada */
+}
+
+/* --- CABECERA CALENDARIO --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.monthYear {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: capitalize;
+    min-width: 200px;
+}
+
+.header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #f8f9fa;
+    color: var(--text-main);
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.header button:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+/* --- DÍAS DE LA SEMANA --- */
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 15px;
+}
+
+.day {
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* --- GRILLA DE FECHAS --- */
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65px; 
+    width: 65px; 
+    margin: 0 auto;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.05rem;
+    border-radius: 50%;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-main);
+    border: 2px solid transparent;
+}
+
+/* Hover general */
+.date:hover:not(.inactive) {
+    background-color: #f1f3f5;
+    color: var(--primary-color);
+    transform: scale(1.15);
+}
+
+/* Día Actual (Hoy) */
+.date.active {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    background: transparent;
+}
+
+/* Días inactivos */
+.date.inactive {
+    color: #e0e0e0;
+    pointer-events: none;
+}
+
+/* --- ESTADOS DE HÁBITOS --- */
+
+.date.completado {
+    background-color: var(--success-color);
+    color: var(--white);
+    box-shadow: 0 6px 15px rgba(46, 204, 113, 0.3);
+}
+
+.date.completado:hover {
+    background-color: #27ae60;
+    transform: scale(1.1);
+    color: white;
+}
+
+.date.no-completado {
+    background-color: var(--error-color);
+    color: var(--white);
+    opacity: 0.8;
+}
+
+.date.no-completado:hover {
+    background-color: #c0392b;
+    color: white;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .calendar {
+        padding: 20px;
+        width: 100%;
+    }
+    
+    .date {
+        height: 40px;
+        width: 40px;
+        font-size: 0.9rem;
+    }
+    
+    .habit-name-display { font-size: 1.8rem; }
+}

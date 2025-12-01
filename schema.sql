@@ -21,5 +21,6 @@ CREATE TABLE IF NOT EXISTS habit_completions (
   completion_date DATE NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (habit_id) REFERENCES habits(id) ON DELETE CASCADE,
-  UNIQUE (habit_id, completion_date) -- Asegura que un hábito solo se pueda completar una vez por día
+  UNIQUE (habit_id, completion_date), -- Asegura que un hábito solo se pueda completar una vez por día
+  status BOOLEAN 
 );
