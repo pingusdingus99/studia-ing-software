@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apoyo a tu Salud Mental - Studia</title>
+
+  <!-- Fuentes Studia -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- ESTILOS: Globales + Específicos -->
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/saludMental.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER ESTÁNDAR -->
+    <header class="app-header">
+        <h1><a href="/">Studia</a></h1>
+        <nav>
+            <a href="/" class="nav-link-back">
+                <a href="/auth/logout">Cerrar Sesión</a>
+            </a>
+        </nav>
+    </header>
+
+    <main class="mental-health-container">
+
+        <h1 class="page-title">Biblioteca de Apoyo</h1>
+        <p class="intro-text">
+            Herramientas breves, libros recomendados y recursos útiles para acompañarte en tu bienestar emocional mientras estudias.
+        </p>
+
+        <!-- SECCIÓN 1: CONSEJOS (Acordeón) -->
+        <div class="section-title">💛 Consejos rápidos para días difíciles</div>
+
+        <div class="tip-card">
+            <div class="tip-header" onclick="toggleDescription('c1', this)">
+                <span>Respiración 4-7-8 (Ansiedad)</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div id="c1" class="tip-content">
+                <p><strong>Técnica rápida para bajar ansiedad:</strong></p>
+                <ul>
+                    <li>Inhala por la nariz en <strong>4 segundos</strong>.</li>
+                    <li>Mantén el aire durante <strong>7 segundos</strong>.</li>
+                    <li>Exhala suavemente por la boca en <strong>8 segundos</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <div class="tip-header" onclick="toggleDescription('c2', this)">
+                <span>Respiración 4-4-6 (Concentración)</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div id="c2" class="tip-content">
+                <p><strong>Útil cuando hay tensión y dificultad para concentrarte:</strong></p>
+                <ul>
+                    <li>Inhala contando 4.</li>
+                    <li>Mantén contando 4.</li>
+                    <li>Exhala contando 6.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <div class="tip-header" onclick="toggleDescription('c3', this)">
+                <span>Técnica 5-4-3-2-1 (Aterrizaje)</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div id="c3" class="tip-content">
+                <p><strong>Ejercicio sensorial para desconexión o pánico:</strong></p>
+                <ul>
+                    <li>👀 5 cosas que puedas ver.</li>
+                    <li>🤚 4 cosas que puedas tocar.</li>
+                    <li>👂 3 sonidos que puedas oír.</li>
+                    <li>👃 2 olores que puedas identificar.</li>
+                    <li>❤️ 1 cosa por la que estés agradecido/a hoy.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-header" onclick="toggleDescription('c4', this)">
+                <span>Pausa amable de 10 minutos</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div id="c4" class="tip-content">
+                <p>Para cortar el ciclo de estrés cuando estás saturado/a:</p>
+                <ul>
+                <li>Aléjate del espacio de estudio.</li>
+                <li>Camina, estira o toma agua.</li>
+                <li><strong>Evita redes sociales</strong> en ese rato.</li>
+                <li>Al volver, elige solo un paso pequeño para retomar.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <div class="tip-header" onclick="toggleDescription('c6', this)">
+                <span>Buscar apoyo seguro</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div id="c6" class="tip-content">
+                <p>Ideas para pedir ayuda emocional:</p>
+                <ul>
+                <li>Hablar con alguien de confianza (amigo, familiar, pareja).</li>
+                <li>Enviar un mensaje corto: <em>“No me siento muy bien, ¿tienes un momento para hablar?”.</em></li>
+                <li>Contactar apoyo psicológico de tu universidad (ver abajo).</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- SECCIÓN 2: BIBLIOTECA (Grid de Libros) -->
+        <div class="section-title">📚 Libros recomendados</div>
+        
+        <div class="books-grid">
+            <!-- Libro 1 -->
+            <div class="resource-card">
+                <div class="resource-title">El arte de no amargarse la vida</div>
+                <div class="resource-desc">Rafael Santandreu explica cómo cambiar la forma en que pensamos para sufrir menos con un lenguaje sencillo.</div>
+                <a href="https://www.planetadelibros.cl/libro-el-arte-de-no-amargarse-la-vida/70675" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+
+            <!-- Libro 2 -->
+            <div class="resource-card">
+                <div class="resource-title">Ansiedad: Cómo enfrentarse al miedo</div>
+                <div class="resource-desc">Enrique Rojas describe qué es la ansiedad y propone estrategias concretas para entenderla y manejarla.</div>
+                <a href="https://www.casadellibro.com/libro-ansiedad/9788491399754/13590418" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+
+            <!-- Libro 3 -->
+            <div class="resource-card">
+                <div class="resource-title">Más fuerte que la adversidad</div>
+                <div class="resource-desc">Walter Riso habla de resiliencia y de cómo levantarse después de pérdidas o momentos duros.</div>
+                <a href="https://www.buscalibre.cl/libro-mas-fuerte-que-la-adversidad/9789584298558/p/53114020" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+
+            <!-- Libro 4 -->
+            <div class="resource-card">
+                <div class="resource-title">El poder del ahora</div>
+                <div class="resource-desc">Eckhart Tolle ayuda a trabajar la ansiedad y la rumiación mental, invitando a conectar con el presente.</div>
+                <a href="https://www.buscalibre.cl/libro-el-poder-del-ahora/9788499881275/p/4138463" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+
+            <!-- Libro 5 -->
+            <div class="resource-card">
+                <div class="resource-title">Inteligencia emocional</div>
+                <div class="resource-desc">Daniel Goleman explica por qué entender y gestionar nuestras emociones es clave para la vida.</div>
+                <a href="https://www.buscalibre.cl/libro-inteligencia-emocional/9788499084331/p/2572944" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+
+            <!-- Libro 6 -->
+            <div class="resource-card">
+                <div class="resource-title">El hombre en busca de sentido</div>
+                <div class="resource-desc">Viktor Frankl reflexiona sobre el sufrimiento y la capacidad humana de encontrar propósito incluso en el dolor.</div>
+                <a href="https://www.buscalibre.cl/libro-el-hombre-en-busca-de-sentido/9788425432029/p/1710830" target="_blank" class="resource-link">Ver reseña</a>
+            </div>
+        </div>
+
+
+        <!-- SECCIÓN 3: RECURSOS UDP -->
+        <div class="section-title">🏫 Recursos Universidad Diego Portales</div>
+        
+        <div class="books-grid udp-section">
+            <div class="resource-card">
+                <div class="resource-title">Salud Mental Estudiantil UDP</div>
+                <div class="resource-desc">Atención psicológica individual, talleres y acompañamiento emocional exclusivo para estudiantes UDP.</div>
+                <a href="https://estudiantes.udp.cl/bienestar-estudiantil/servicios-de-salud-mental/" target="_blank" class="resource-link">Sitio Oficial</a>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-title">Bienestar Estudiantil — DAE</div>
+                <div class="resource-desc">Recursos, información y contactos de apoyo para la vida universitaria.</div>
+                <a href="https://dae.udp.cl/quienes-somos/salud-mental-estudiantil/" target="_blank" class="resource-link">Más detalles</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Script Mejorado para alternar íconos también -->
+    <script>
+        function toggleDescription(id, headerElement) {
+            const content = document.getElementById(id);
+            const icon = headerElement.querySelector('i');
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                if(icon) icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            } else {
+                content.style.display = "block";
+                if(icon) icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -11,6 +11,7 @@
     
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/respiración.css">
+    <link rel="stylesheet" href="/css/layout.css">
 </head>
 <body>
     
@@ -21,6 +22,8 @@
             <% if (user) { %>
                 <span class="user-greeting">Hola, <%= user.username %></span>
                 <a href="#" id="open-health-btn" class="health-link">Respiración</a>
+                <a href="/methods/methods" id="open-health-btn" class="health-link">Métodos de Estudio</a>
+                <a href="/mentalHealth/mentalHealth" id="open-health-btn" class="health-link">Biblioteca de Apoyo</a>
                 <a href="/auth/logout" class="health-link">Cerrar Sesión</a>
             <% } else { %>
                 <a href="/auth/login" class="nav-link">Login</a>
