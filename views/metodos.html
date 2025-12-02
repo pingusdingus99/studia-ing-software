@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de Estudio - Studia</title>
+    
+    <!-- Fuentes Studia -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/css/methods.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <!-- Font Awesome para flechitas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header consistente -->
+    <header class="app-header">
+        <h1><a href="/">Studia</a></h1>
+        <nav>
+            <a href="/" class="nav-link-back">
+                <a href="/auth/logout">Cerrar Sesión</a>
+            </a>
+        </nav>
+    </header>
+
+    <main class="methods-container">
+        <h1 class="page-title">Métodos de Estudio</h1>
+        <p class="intro-text">
+            Descubre técnicas comprobadas para potenciar tu aprendizaje. Haz clic en cada tarjeta para ver cómo aplicarla paso a paso.
+        </p>
+
+        <!-- Pomodoro -->
+        <div class="method-item">
+            <div class="method-header" onclick="toggleMethod(this)">
+                <div class="method-title">
+                    <div class="icon-wrapper">⏳</div>
+                    Método Pomodoro
+                </div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="method-content">
+                <div class="content-inner">
+                    <h3>¿En qué consiste?</h3>
+                    <p>
+                        Es una técnica para estudiar en bloques cortos de tiempo con descansos frecuentes.
+                        Sirve para mejorar la concentración y evitar el agotamiento mental.
+                    </p>
+                    <h3>Pasos para aplicarlo:</h3>
+                    <ol class="steps-list">
+                        <li>Elige una tarea concreta (ej: "hacer 5 ejercicios").</li>
+                        <li>Configura un temporizador de <strong>25 minutos</strong> y estudia sin distracciones.</li>
+                        <li>Cuando suene, descansa obligatoriamente <strong>5 minutos</strong>.</li>
+                        <li>Repite este ciclo 4 veces.</li>
+                        <li>Después del cuarto ciclo, toma un descanso largo de <strong>15–20 minutos</strong>.</li>
+                    </ol>
+                    <div class="tip-box">
+                        <strong>Tip Pro:</strong> Si recuerdas algo pendiente mientras estudias, anótalo en un papel y sigue. No te detengas.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapas mentales -->
+        <div class="method-item">
+            <div class="method-header" onclick="toggleMethod(this)">
+                <div class="method-title">
+                    <div class="icon-wrapper">🧠</div>
+                    Mapas Mentales
+                </div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="method-content">
+                <div class="content-inner">
+                    <h3>¿En qué consiste?</h3>
+                    <p>Una forma visual de organizar información que imita cómo funciona el cerebro, usando palabras clave, colores y conexiones.</p>
+                    <h3>Pasos para aplicarlo:</h3>
+                    <ol class="steps-list">
+                        <li>Escribe el concepto principal en el centro de una hoja horizontal.</li>
+                        <li>Dibuja ramas gruesas hacia afuera con los subtemas principales.</li>
+                        <li>Usa solo palabras clave, no frases largas.</li>
+                        <li>Utiliza colores distintos para cada rama y añade dibujos sencillos.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Técnica Feynman -->
+        <div class="method-item">
+            <div class="method-header" onclick="toggleMethod(this)">
+                <div class="method-title">
+                    <div class="icon-wrapper">📝</div>
+                    Técnica Feynman
+                </div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="method-content">
+                <div class="content-inner">
+                    <h3>¿En qué consiste?</h3>
+                    <p>El mejor método para aprender algo profundamente: intentar explicarlo de forma tan simple que un niño pudiera entenderlo.</p>
+                    <h3>Pasos para aplicarlo:</h3>
+                    <ol class="steps-list">
+                        <li>Elige un concepto difícil.</li>
+                        <li>Escribe una explicación en una hoja usando lenguaje simple.</li>
+                        <li>Identifica dónde te trabaste o usaste jerga técnica (ahí está tu laguna de conocimiento).</li>
+                        <li>Vuelve al material de estudio para aclarar esa duda.</li>
+                        <li>Reescribe la explicación simplificada.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estudio por Bloques -->
+        <div class="method-item">
+            <div class="method-header" onclick="toggleMethod(this)">
+                <div class="method-title">
+                    <div class="icon-wrapper">📚</div>
+                    Time Blocking
+                </div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="method-content">
+                <div class="content-inner">
+                    <h3>¿En qué consiste?</h3>
+                    <p>Dividir tu día y tu temario en bloques dedicados exclusivamente a una sola tarea, evitando el "multitasking".</p>
+                    <h3>Pasos para aplicarlo:</h3>
+                    <ol class="steps-list">
+                        <li>Lista todo lo que debes estudiar.</li>
+                        <li>Divide el temario en bloques pequeños y digeribles.</li>
+                        <li>Asigna un horario específico en tu calendario para cada bloque.</li>
+                        <li>Durante ese bloque, solo existe ese tema.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repetición Espaciada -->
+        <div class="method-item">
+            <div class="method-header" onclick="toggleMethod(this)">
+                <div class="method-title">
+                    <div class="icon-wrapper">🕒</div>
+                    Repetición Espaciada
+                </div>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+            <div class="method-content">
+                <div class="content-inner">
+                    <h3>¿En qué consiste?</h3>
+                    <p>La técnica definitiva para la memoria a largo plazo. Consiste en repasar la información justo antes de que estés a punto de olvidarla.</p>
+                    <h3>Pasos para aplicarlo:</h3>
+                    <ol class="steps-list">
+                        <li>Estudia el contenido hoy.</li>
+                        <li>Haz un repaso rápido mañana (Día 1).</li>
+                        <li>Haz el siguiente repaso 3 días después (Día 4).</li>
+                        <li>Haz el último repaso una semana después (Día 11).</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function toggleMethod(headerElement) {
+            // Buscamos el elemento padre (.method-item)
+            const item = headerElement.parentElement;
+            
+            // Alternamos la clase 'active'
+            item.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>

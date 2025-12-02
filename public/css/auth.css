@@ -1,93 +1,22 @@
-/* --- VARIABLES --- */
-:root {
-    --primary-color: #5383cb; /* Tu color Teal de Mailchimp */
-    --text-main: #241c15;
-    --bg-body: #f6f6f4;
-    --white: #ffffff;
-    --header-height: 70px;
-}
+/* Nota: Este archivo asume que layout.css ya está cargado */
 
-/* Reset básico */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    
-    /* CAMBIO CLAVE: Estructura vertical */
-    display: flex;
-    flex-direction: column; /* Apila Header arriba, Contenido abajo */
-    min-height: 100vh;      /* Ocupa toda la altura */
-}
-
-/* --- HEADER (Adaptado de calendar.css pero con estilo Auth) --- */
-.app-header {
-    background-color: var(--white);
-    height: var(--header-height);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px; /* Padding lateral */
-    border-bottom: 1px solid #dce0e1; /* Borde sutil para separar */
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.app-header h1 {
-    font-family: 'Merriweather', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.app-header h1 a {
-    text-decoration: none;
-    color: var(--text-main);
-    transition: color 0.2s;
-}
-
-.app-header h1 a:hover {
-    color: var(--primary-color);
-}
-
-.app-header nav a {
-    text-decoration: none;
-    color: var(--text-main);
-    margin-left: 20px;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.2s;
-}
-
-.app-header nav a:hover {
-    color: var(--primary-color);
-}
-
-
-/* --- CONTENEDOR PRINCIPAL (El que centra el login) --- */
+/* --- CONTENEDOR PRINCIPAL --- */
 .auth-main-container {
-    flex: 1; /* Ocupa todo el espacio restante debajo del header */
-    display: flex;       /* Flexbox interno para centrar la tarjeta */
+    flex: 1; 
+    display: flex;       
     justify-content: center;
     align-items: center;
     padding: 20px;
     width: 100%;
 }
 
-
-/* --- TARJETA DE LOGIN (Sin cambios mayores) --- */
+/* --- TARJETA DE LOGIN --- */
 .login-card {
     background-color: var(--white);
     width: 100%;
     max-width: 450px;
     padding: 40px;
     border: 1px solid #dce0e1; 
-    /* Quitamos el margin: 20px porque el padre ya tiene padding */
 }
 
 /* Título */
@@ -100,7 +29,7 @@ body {
     color: var(--text-main);
 }
 
-/* Subtítulo / Crear cuenta */
+/* Subtítulo */
 .subtitle {
     font-size: 14px;
     margin-bottom: 30px;
@@ -113,7 +42,7 @@ body {
     font-weight: 500;
 }
 
-/* Estilos del Formulario */
+/* Formularios */
 .form-group {
     margin-bottom: 20px;
     position: relative;
@@ -147,7 +76,6 @@ input[type="text"]:focus{
     box-shadow: 0 0 0 1px var(--primary-color);
 }
 
-/* Botón "Mostrar" contraseña */
 .show-password-btn {
     position: absolute;
     right: 10px;
@@ -160,7 +88,7 @@ input[type="text"]:focus{
     cursor: pointer;
 }
 
-/* Checkbox "Mantener sesión" */
+/* Checkbox */
 .checkbox-group {
     display: flex;
     align-items: center;
@@ -179,7 +107,7 @@ input[type="text"]:focus{
     font-weight: 400;
 }
 
-/* Botón de Enviar */
+/* Botón Submit */
 .btn-submit {
     background-color: var(--primary-color);
     color: white;
@@ -190,14 +118,14 @@ input[type="text"]:focus{
     border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 100%; /* Opcional: hace que el botón ocupe todo el ancho en móvil */
+    width: 100%;
 }
 
 .btn-submit:hover {
-    background-color: #3b69af;
+    background-color: var(--primary-hover);
 }
 
-/* Links del pie de página */
+/* Footer Links */
 .footer-links {
     margin-top: 30px;
     font-size: 13px;
@@ -225,13 +153,10 @@ input[type="text"]:focus{
     }
     .auth-main-container {
         padding: 0;
-        align-items: flex-start; /* Sube el contenido en móviles */
-        background-color: var(--white);
-    }
-    body {
+        align-items: flex-start;
         background-color: var(--white);
     }
     .app-header {
-        padding: 0 20px; /* Menos padding en header móvil */
+        padding: 0 20px; 
     }
 }

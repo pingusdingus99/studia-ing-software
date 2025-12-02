@@ -1,0 +1,142 @@
+/* --- CONTENEDOR ESPECÍFICO --- */
+.methods-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.page-title {
+    text-align: center;
+    font-family: 'Merriweather', serif;
+    color: var(--text-main);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.intro-text {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- TARJETAS DE MÉTODOS --- */
+.method-item {
+    background: var(--white);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.method-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--card-shadow);
+}
+
+.method-header {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    transition: background-color 0.2s;
+}
+
+.method-header:hover { background-color: #fafafa; }
+
+.method-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-main);
+}
+
+.icon-wrapper {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.chevron {
+    color: #999;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.method-item.active .chevron {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
+.method-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #fafafa;
+    border-top: 1px solid transparent;
+}
+
+.method-item.active .method-content {
+    max-height: 1000px;
+    border-top-color: #f0f0f0;
+    padding-bottom: 20px;
+}
+
+.content-inner {
+    padding: 24px;
+    color: var(--text-main);
+}
+
+.content-inner h3 {
+    font-family: 'Merriweather', serif;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.content-inner p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.steps-list {
+    margin: 0;
+    padding-left: 20px;
+    list-style-type: decimal;
+}
+
+.steps-list li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+    line-height: 1.5;
+}
+
+.tip-box {
+    margin-top: 20px;
+    background-color: #fff8e1;
+    border-left: 4px solid #ffc107;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #665c26;
+}
