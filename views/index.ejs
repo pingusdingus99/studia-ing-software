@@ -4,61 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studia - Habit Tracker</title>
+    <!-- Fuentes para que coincida con el estilo moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/respiración.css">
-    
-    <style>
-        /* Estilos para el botón del nombre del hábito */
-        .btn-ver-habito {
-            background: none;
-            border: none;
-            color: #000000; 
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            text-align: left;
-            padding: 0;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .btn-ver-habito:hover {
-            color: #0a58ca;
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
+    
+    <!-- Header General -->
     <header class="app-header">
-        <h1>Studia</h1>
+        <h1><a href="/" style="color: inherit; text-decoration: none;">Studia</a></h1>
         <nav>
             <% if (user) { %>
-                <span>Hola, <%= user.username %></span>
-                <a href="#" id="open-health-btn" class="health-link">Ejercicios</a>
-                <a href="/auth/logout">Cerrar Sesión</a>
+                <span class="user-greeting">Hola, <%= user.username %></span>
+                <a href="#" id="open-health-btn" class="health-link">Respiración</a>
+                <a href="/auth/logout" class="health-link">Cerrar Sesión</a>
             <% } else { %>
-                <a href="/auth/login">Login</a>
-                <a href="/auth/register">Registro</a>
+                <a href="/auth/login" class="nav-link">Login</a>
+                <a href="/auth/register" class="nav-link">Registro</a>
             <% } %>
         </nav>
     </header>
 
-    <main class="container">
-        <% if (!user) { %>
-            <div class="welcome-message">
-                <h2>¡Bienvenido a Studia!</h2>
-                <p>Para comenzar a registrar tus hábitos, por favor <a href="/auth/login">inicia sesión</a> o <a href="/auth/register">créate una cuenta</a>.</p>
+    <!-- LÓGICA DE VISTAS -->
+    
+    <% if (!user) { %>
+        <!-- VISTA 1: LANDING PAGE (Usuario NO logueado) -->
+        <!-- Esta sección ocupa todo el ancho, fuera del contenedor normal -->
+        <div class="landing-hero">
+            <div class="hero-content">
+                <div class="hero-text-col">
+                    <h1 class="hero-title">
+                        Construye hábitos <br>
+                        que mejoren tu vida
+                    </h1>
+                    <p class="hero-subtitle">
+                        Studia te ayuda a organizar tu día, hacer seguimiento de tus tareas y cuidar tu bienestar emocional en un solo lugar.
+                    </p>
+                    <div class="hero-buttons">
+                        <!-- Usamos el estilo "Registro" como botón principal -->
+                        <a href="/auth/register" class="btn-hero-primary">Comenzar ahora</a>
+                        <a href="/auth/login" class="btn-hero-secondary">Iniciar sesión</a>
+                    </div>
+                </div>
+                
+                <div class="hero-image-col">
+                    <!-- IMAGEN IMPLEMENTADA -->
+                    <!-- Se han añadido estilos inline para mantener la estética de sombra y bordes -->
+                    <img 
+                        src="/img/habito.png" 
+                        alt="Vista previa de Studia" 
+                        class="hero-img"
+                        style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);"
+                    >
+                </div>
             </div>
-        <% } %>
+        </div>
 
-        <div class="main-actions">
-            <% if (user) { %>
+    <% } else { %>
+
+        <!-- VISTA 2: DASHBOARD (Usuario SI logueado) -->
+        <main class="container">
+            <div class="main-actions">
                 <p class="add-habit-invite">Presiona el botón para agregar un hábito nuevo.</p>
                 <button id="add-habit-btn" class="add-habit-btn-main">+</button>
-            <% } %>
-        </div>
-        
-        <% if (user) {%>
+            </div>
+            
             <div class="habits-grid">
                 <div class="grid-header">
                     <div class="habit-name-header">Hábito (Click para detalle)</div>
@@ -73,17 +87,14 @@
                     </div>
                 </div>
                 <div class="grid-body">
-                    <% if (habits.length === 0 && user) { %>
-                        <p style="padding: 1rem;">Aún no tienes hábitos. ¡Crea uno nuevo!</p>
+                    <% if (habits.length === 0) { %>
+                        <div class="empty-state">
+                            <p>Aún no tienes hábitos. ¡Crea uno nuevo con el botón +!</p>
+                        </div>
                     <% } %>
                     <% habits.forEach(habit => { %> 
                         <div class="habit-row">
                             <div class="habit-name">
-                                <!-- CORRECCIÓN: 
-                                     1. Usamos una redirección directa con window.location.href.
-                                     2. Pasamos el ID como parámetro 'query' (?id=...) en la URL.
-                                     3. Quitamos el ID duplicado "btn-ver-habito" y usamos solo clase.
-                                -->
                                 <button 
                                     class="btn-ver-habito" 
                                     onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
@@ -102,7 +113,6 @@
                                         data-date="<%= dateString %>"
                                         role="button"
                                         tabindex="0"
-                                        aria-label="Marcar hábito <%= habit.name %> como <%= isCompleted ? 'no completado' : 'completado' %> para el día <%= dateString %>"
                                     >
                                     </div> 
                                 <% }) %>
@@ -111,65 +121,62 @@
                     <% }) %>
                 </div>
             </div>
-        <% } %>
-    </main>
+        </main>
 
-    <% if (user) { %>
-    <!-- Modal Agregar Hábito -->
-    <div id="add-habit-modal" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h2>Añadir Nuevo Hábito</h2>
-            <form action="/habits/add" method="POST">
-                <div class="form-group">
-                    <label for="habitName">Nombre del Hábito</label>
-                    <input type="text" id="habitName" name="habitName" placeholder="Ej: Estudiar" required minlength="3" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="habitDescription">Descripción (Opcional)</label>
-                    <textarea id="habitDescription" name="habitDescription" rows="3" placeholder="Ej: Estudiar por al menos 30 minutos"></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" id="cancel-btn">Cancelar</button>
-                    <button type="submit">Guardar Hábito</button>
-                </div>
-            </form>
+        <!-- Modales (Solo se cargan si hay usuario) -->
+        <div id="add-habit-modal" class="modal-backdrop hidden">
+            <div class="modal-content">
+                <h2>Añadir Nuevo Hábito</h2>
+                <form action="/habits/add" method="POST">
+                    <div class="form-group">
+                        <label for="habitName">Nombre del Hábito</label>
+                        <input type="text" id="habitName" name="habitName" placeholder="Ej: Estudiar" required minlength="3" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="habitDescription">Descripción (Opcional)</label>
+                        <textarea id="habitDescription" name="habitDescription" rows="3" placeholder="Ej: Estudiar por al menos 30 minutos"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" id="cancel-btn">Cancelar</button>
+                        <button type="submit">Guardar Hábito</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- MODAL: Salud Mental -->
-    <div id="health-modal" class="modal-backdrop hidden">
-        <div class="modal-content modal-no-padding" style="max-width: 500px; position: relative; overflow: hidden;">
-            <button id="close-health-modal-x" style="position: absolute; top: 15px; right: 15px; border: none; background: none; font-size: 1.5rem; cursor: pointer; color: #999; z-index: 50; transition: color 0.3s;">&times;</button>
-            <div id="selection-view" class="start-overlay">
-                <div class="selection-view-content">
-                    <h2 style="margin-bottom: 1.5rem; color: #333;">Elige tu ejercicio</h2>
-                    <div class="selection-buttons">
-                        <div id="btn-select-equitativa" class="selection-card" role="button">
-                            <div class="card-icon"><span class="icon-lines"></span></div>
-                            <button class="info-btn" data-info="equitativa">i</button>
-                            <div><h3 class="card-title">Respiración<br>Equitativa</h3><p class="card-desc">Equilibra tu mente.</p></div>
-                        </div>
-                        <div id="btn-select-cuadrada" class="selection-card" role="button">
-                            <div class="card-icon"><span class="icon-square"></span></div>
-                            <button class="info-btn" data-info="cuadrada">i</button>
-                            <div><h3 class="card-title">Respiración<br>Cuadrada</h3><p class="card-desc">Enfoque total.</p></div>
+        <div id="health-modal" class="modal-backdrop hidden">
+            <div class="modal-content modal-no-padding" style="max-width: 500px; position: relative; overflow: hidden;">
+                <button id="close-health-modal-x" style="position: absolute; top: 15px; right: 15px; border: none; background: none; font-size: 1.5rem; cursor: pointer; color: #999; z-index: 50; transition: color 0.3s;">&times;</button>
+                <div id="selection-view" class="start-overlay">
+                    <div class="selection-view-content">
+                        <h2 style="margin-bottom: 1.5rem; color: #333;">Elige tu ejercicio</h2>
+                        <div class="selection-buttons">
+                            <div id="btn-select-equitativa" class="selection-card" role="button">
+                                <div class="card-icon"><span class="icon-lines"></span></div>
+                                <button class="info-btn" data-info="equitativa">i</button>
+                                <div><h3 class="card-title">Respiración<br>Equitativa</h3><p class="card-desc">Equilibra tu mente.</p></div>
+                            </div>
+                            <div id="btn-select-cuadrada" class="selection-card" role="button">
+                                <div class="card-icon"><span class="icon-square"></span></div>
+                                <button class="info-btn" data-info="cuadrada">i</button>
+                                <div><h3 class="card-title">Respiración<br>Cuadrada</h3><p class="card-desc">Enfoque total.</p></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="info-view" class="start-overlay hidden">
-                <div class="info-header"><button id="btn-close-info" class="info-close-x">&times;</button><h2 id="info-title-display" class="info-title-main">Título</h2></div>
-                <div id="info-content-display" class="info-content-scroll"></div>
-                <div class="info-footer"><button id="btn-start-from-info" class="btn-start-white">Empezar Ejercicio</button></div>
-            </div>
-            <div id="exercise-view" class="health-tool-container hidden">
-                <h3 id="exercise-title-display" style="margin-bottom: 10px; color: white;">Respiración</h3>
-                <div class="breathing-circle-wrapper"><div class="circle" id="breath-circle"><span id="timer-text">Listo</span></div></div>
-                <div id="instruction-text" class="instruction-label">Presiona Comenzar</div>
-                <div class="exercise-controls"><button id="btn-toggle-exercise" class="btn-action-primary">Comenzar</button><button id="btn-back-menu" class="btn-action-secondary">Volver</button></div>
+                <div id="info-view" class="start-overlay hidden">
+                    <div class="info-header"><button id="btn-close-info" class="info-close-x">&times;</button><h2 id="info-title-display" class="info-title-main">Título</h2></div>
+                    <div id="info-content-display" class="info-content-scroll"></div>
+                    <div class="info-footer"><button id="btn-start-from-info" class="btn-start-white">Empezar Ejercicio</button></div>
+                </div>
+                <div id="exercise-view" class="health-tool-container hidden">
+                    <h3 id="exercise-title-display" style="margin-bottom: 10px; color: white;">Respiración</h3>
+                    <div class="breathing-circle-wrapper"><div class="circle" id="breath-circle"><span id="timer-text">Listo</span></div></div>
+                    <div id="instruction-text" class="instruction-label">Presiona Comenzar</div>
+                    <div class="exercise-controls"><button id="btn-toggle-exercise" class="btn-action-primary">Comenzar</button><button id="btn-back-menu" class="btn-action-secondary">Volver</button></div>
+                </div>
             </div>
         </div>
-    </div>
     <% } %>
 
 </body>
@@ -178,6 +185,5 @@
 
 <% if (user) { %>
     <script src="/js/respiración.js"></script>
-    <!-- Ya no necesitamos el script de carga aquí, la lógica pasa a calendar.js -->
 <% } %>
 </html>

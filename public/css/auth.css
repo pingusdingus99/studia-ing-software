@@ -1,0 +1,237 @@
+/* --- VARIABLES --- */
+:root {
+    --primary-color: #5383cb; /* Tu color Teal de Mailchimp */
+    --text-main: #241c15;
+    --bg-body: #f6f6f4;
+    --white: #ffffff;
+    --header-height: 70px;
+}
+
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    
+    /* CAMBIO CLAVE: Estructura vertical */
+    display: flex;
+    flex-direction: column; /* Apila Header arriba, Contenido abajo */
+    min-height: 100vh;      /* Ocupa toda la altura */
+}
+
+/* --- HEADER (Adaptado de calendar.css pero con estilo Auth) --- */
+.app-header {
+    background-color: var(--white);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px; /* Padding lateral */
+    border-bottom: 1px solid #dce0e1; /* Borde sutil para separar */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.app-header h1 a {
+    text-decoration: none;
+    color: var(--text-main);
+    transition: color 0.2s;
+}
+
+.app-header h1 a:hover {
+    color: var(--primary-color);
+}
+
+.app-header nav a {
+    text-decoration: none;
+    color: var(--text-main);
+    margin-left: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.app-header nav a:hover {
+    color: var(--primary-color);
+}
+
+
+/* --- CONTENEDOR PRINCIPAL (El que centra el login) --- */
+.auth-main-container {
+    flex: 1; /* Ocupa todo el espacio restante debajo del header */
+    display: flex;       /* Flexbox interno para centrar la tarjeta */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+
+/* --- TARJETA DE LOGIN (Sin cambios mayores) --- */
+.login-card {
+    background-color: var(--white);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border: 1px solid #dce0e1; 
+    /* Quitamos el margin: 20px porque el padre ya tiene padding */
+}
+
+/* Título */
+.login-card h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+    color: var(--text-main);
+}
+
+/* Subtítulo / Crear cuenta */
+.subtitle {
+    font-size: 14px;
+    margin-bottom: 30px;
+    color: var(--text-main);
+}
+
+.subtitle a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Estilos del Formulario */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"]{
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #d0d0d0;
+    border-radius: 0;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus, 
+input[type="text"]:focus{
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Botón "Mostrar" contraseña */
+.show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Checkbox "Mantener sesión" */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.checkbox-group input {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: var(--primary-color);
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+/* Botón de Enviar */
+.btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Opcional: hace que el botón ocupe todo el ancho en móvil */
+}
+
+.btn-submit:hover {
+    background-color: #3b69af;
+}
+
+/* Links del pie de página */
+.footer-links {
+    margin-top: 30px;
+    font-size: 13px;
+    display: flex;
+    gap: 15px;
+    color: var(--primary-color);
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.footer-links a:hover {
+    border-bottom-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 20px;
+        border: none;
+        background-color: transparent;
+    }
+    .auth-main-container {
+        padding: 0;
+        align-items: flex-start; /* Sube el contenido en móviles */
+        background-color: var(--white);
+    }
+    body {
+        background-color: var(--white);
+    }
+    .app-header {
+        padding: 0 20px; /* Menos padding en header móvil */
+    }
+}
