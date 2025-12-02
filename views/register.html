@@ -30,7 +30,7 @@
                 <a href="/auth/login">Iniciar sesión</a>
             </p>
 
-            <form id="register-form" action="/auth/register" method="POST">
+            <form action="/auth/register" method="POST">
                 
                 <div class="form-group">
                     <label for="username">Nombre de usuario</label>
@@ -66,40 +66,6 @@
                 toggleBtn.textContent = "Mostrar";
             }
         }
-    </script>
-
-    <script>
-        document.getElementById('register-form').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Evitamos el envío tradicional del formulario
-
-            const form = event.target;
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Caso de éxito
-                    alert(result.message + "\nSerás redirigido a la página de inicio de sesión.");
-                    window.location.href = '/auth/login';
-                } else {
-                    // Caso de error
-                    alert('Error: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error en la petición de registro:', error);
-                alert('Ocurrió un error de conexión. Por favor, intenta de nuevo.');
-            }
-        });
     </script>
 </body>
 </html>
