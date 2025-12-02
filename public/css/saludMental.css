@@ -1,0 +1,155 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.mental-health-container {
+    max-width: 900px; /* Un poco más ancho para que los libros respiren */
+    margin: 40px auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* --- TEXTOS INTRODUCTORIOS --- */
+.page-title {
+    text-align: center;
+    font-family: 'Merriweather', serif;
+    color: var(--text-main);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.intro-text {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- TÍTULOS DE SECCIÓN --- */
+.section-title {
+    font-family: 'Merriweather', serif;
+    font-size: 1.5rem;
+    color: var(--primary-color); /* Teal Studia */
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0f2f1; /* Línea decorativa sutil */
+}
+
+/* --- TARJETAS DE CONSEJOS (Acordeón) --- */
+/* Reutilizamos la lógica visual limpia que creamos para métodos */
+
+.tip-card {
+    background: var(--white);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.tip-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.tip-header {
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 1.05rem;
+}
+
+.tip-header:hover {
+    background-color: #fafafa;
+    color: var(--primary-color);
+}
+
+.tip-content {
+    display: none; /* Se controla con JS igual que antes */
+    padding: 24px;
+    background-color: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    color: #444;
+    line-height: 1.6;
+}
+
+.tip-content ul {
+    margin-bottom: 0;
+    padding-left: 1.5rem;
+}
+
+.tip-content li {
+    margin-bottom: 8px;
+}
+
+/* --- TARJETAS DE LIBROS (Grid) --- */
+/* Organizamos los libros en una cuadrícula para que se vea más ordenado */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsivo automático */
+    gap: 20px;
+}
+
+.resource-card {
+    background: var(--white);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: var(--primary-color);
+}
+
+.resource-title {
+    font-family: 'Merriweather', serif; /* Serif para títulos de libros queda muy bien */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.resource-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    flex-grow: 1; /* Empuja el botón hacia abajo */
+    line-height: 1.5;
+}
+
+/* Botón de enlace */
+.resource-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #e0f2f1;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.resource-link:hover {
+    background-color: #b2dfdb;
+    color: #004d40;
+}
+
+/* Estilo especial para la sección UDP */
+.udp-section .resource-card {
+    border-left: 4px solid var(--secondary-blue);
+}
