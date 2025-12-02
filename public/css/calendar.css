@@ -35,7 +35,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5%;
+    padding: 1rem 2rem;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky; /* Se queda fijo arriba si haces scroll */
     top: 0;
