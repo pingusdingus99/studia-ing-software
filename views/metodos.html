@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de Estudio</title>
+
+    <!-- ESTILOS SOLO PARA ESTA PÁGINA -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FAEEE5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .methods-container {
+            max-width: 780px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 25px;
+            font-size: 1.9rem;
+        }
+
+        .intro-text {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .method-card {
+            background-color: #F8EDEB;
+            padding: 15px 18px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.25s ease;
+            border: 1px solid #efd6cf;
+        }
+
+        .method-card span {
+            font-weight: 500;
+        }
+
+        .method-card:hover {
+            background-color: #DBC0E7;
+            color: white;
+        }
+
+        .method-description {
+            display: none;
+            padding: 15px 18px 18px;
+            background-color: #ffffff;
+            border-left: 4px solid #C9E6EE;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #4a4a4a;
+        }
+
+        .method-description h2 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .method-description p {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .method-description ol {
+            margin: 0 0 6px 1.2rem;
+            padding: 0;
+        }
+
+        .method-description li {
+            margin-bottom: 4px;
+        }
+
+        .tip {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #C9E6EE;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #4a4a4a;
+            border: 1px solid #AFCFD9;
+            font-size: 1rem;
+            transition: 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #AFCFD9;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="methods-container">
+        <h1>Métodos de Estudio</h1>
+        <p class="intro-text">
+            Elige un método para ver una explicación sencilla y pasos concretos para aplicarlo en tus sesiones de estudio.
+        </p>
+
+        <!-- Pomodoro -->
+        <div class="method-card" onclick="toggleDescription('pomodoro')">
+            <span>⏳ Método Pomodoro</span>
+            <span>Ver más ▾</span>
+        </div>
+        <div id="pomodoro" class="method-description">
+            <h2>¿Qué es?</h2>
+            <p>
+                Es una técnica para estudiar en bloques cortos de tiempo con descansos frecuentes.
+                Sirve para mejorar la concentración y evitar agotarse.
+            </p>
+            <h2>Pasos para aplicarlo</h2>
+            <ol>
+                <li>Elige una tarea concreta que quieras avanzar (por ejemplo, “hacer 5 ejercicios de cálculo”).</li>
+                <li>Pon un temporizador de <strong>25 minutos</strong> y estudia sin distracciones.</li>
+                <li>Cuando suene el temporizador, descansa <strong>5 minutos</strong>.</li>
+                <li>Repite el ciclo 4 veces.</li>
+                <li>Después del cuarto pomodoro, toma un descanso de <strong>15–20 minutos</strong>.</li>
+            </ol>
+            <p class="tip"><strong>Tip:</strong> si te llegan ideas o pendientes, anótalos y sigue estudiando.</p>
+        </div>
+
+        <!-- Mapas mentales -->
+        <div class="method-card" onclick="toggleDescription('mapas')">
+            <span>🧠 Mapas mentales</span>
+            <span>Ver más ▾</span>
+        </div>
+        <div id="mapas" class="method-description">
+            <h2>¿Qué es?</h2>
+            <p>
+                Es una forma visual de organizar información usando palabras clave, colores y ramificaciones.
+            </p>
+            <h2>Pasos para aplicarlo</h2>
+            <ol>
+                <li>Escribe el tema principal en el centro de la hoja.</li>
+                <li>Dibuja ramas principales con los subtemas importantes.</li>
+                <li>Agrega palabras clave y conceptos importantes.</li>
+                <li>Usa colores, flechas y símbolos.</li>
+                <li>Repasa el mapa explicándolo en voz alta.</li>
+            </ol>
+        </div>
+
+        <!-- Técnica Feynman -->
+        <div class="method-card" onclick="toggleDescription('feynman')">
+            <span>📝 Técnica Feynman</span>
+            <span>Ver más ▾</span>
+        </div>
+        <div id="feynman" class="method-description">
+            <h2>¿Qué es?</h2>
+            <p>
+                Técnica para comprobar si entiendes un tema explicándolo con palabras simples.
+            </p>
+            <h2>Pasos para aplicarlo</h2>
+            <ol>
+                <li>Elige un concepto específico.</li>
+                <li>Explícalo con tus palabras en una hoja.</li>
+                <li>Detecta partes confusas.</li>
+                <li>Revisa el material y aclara dudas.</li>
+                <li>Reescribe la explicación con ejemplos simples.</li>
+            </ol>
+        </div>
+
+        <!-- Estudio por bloques -->
+        <div class="method-card" onclick="toggleDescription('bloques')">
+            <span>📚 Estudio por bloques</span>
+            <span>Ver más ▾</span>
+        </div>
+        <div id="bloques" class="method-description">
+            <h2>¿Qué es?</h2>
+            <p>Consiste en dividir un temario grande en partes pequeñas para estudiar por secciones.</p>
+            <h2>Pasos para aplicarlo</h2>
+            <ol>
+                <li>Anota todo lo que debes estudiar.</li>
+                <li>Divide en bloques pequeños.</li>
+                <li>Asigna horarios.</li>
+                <li>En cada sesión, estudia solo el bloque asignado.</li>
+                <li>Marca los bloques terminados y repasa.</li>
+            </ol>
+        </div>
+
+        <!-- Repetición espaciada -->
+        <div class="method-card" onclick="toggleDescription('espaciado')">
+            <span>🕒 Repetición espaciada</span>
+            <span>Ver más ▾</span>
+        </div>
+        <div id="espaciado" class="method-description">
+            <h2>¿Qué es?</h2>
+            <p>Técnica para memorizar a largo plazo repasando en intervalos separados.</p>
+            <h2>Pasos para aplicarlo</h2>
+            <ol>
+                <li>Selecciona el contenido a memorizar.</li>
+                <li>Primer repaso el mismo día.</li>
+                <li>Segundo repaso al día siguiente.</li>
+                <li>Tercer repaso a los 3–4 días.</li>
+                <li>Revisiones semanales hasta la prueba.</li>
+            </ol>
+        </div>
+
+        <a class="back-btn" href="index.html">⬅ Volver al inicio</a>
+    </div>
+
+    <script>
+        function toggleDescription(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === "block" ? "none" : "block";
+        }
+    </script>
+
+</body>
+</html>
