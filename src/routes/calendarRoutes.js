@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { showCalendar, infoHabito } = require('../controllers/calendarController');
+const { showCalendar, infoHabito, checkHabitOwnership } = require('../controllers/calendarController');
 
 // Mostrar páginas
-router.get('/calendarioHabitos', showCalendar); //boton hábitos
-router.get('/habitos/:id', infoHabito); // se calcularán los días a pintar en el calendario
+// Usamos el middleware 'checkHabitOwnership' para proteger ambas rutas.
+router.get('/calendarioHabitos', checkHabitOwnership, showCalendar); // Protege la vista
+router.get('/habitos/:id', checkHabitOwnership, infoHabito); // Protege la API de datos
 
 module.exports = router;

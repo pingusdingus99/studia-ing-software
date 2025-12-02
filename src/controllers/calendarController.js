@@ -1,6 +1,33 @@
 const path = require('path');
 const db = require('../models/db');
 
+// Middleware para verificar que el hábito pertenece al usuario logueado
+exports.checkHabitOwnership = async (req, res, next) => {
+    // 1. Asegurarse de que el usuario está logueado
+    if (!req.session.user) {
+        return res.redirect('/auth/login');
+    }
+
+    try {
+        const habitId = req.params.id || req.query.id; // Funciona con /:id o con ?id=
+        const userId = req.session.user.id;
+
+        const result = await db.query('SELECT user_id FROM habits WHERE id = $1', [habitId]);
+
+        // 2. Si el hábito no existe o no pertenece al usuario
+        if (result.rows.length === 0 || result.rows[0].user_id !== userId) {
+            // No damos pistas, simplemente redirigimos a la página principal.
+            return res.status(403).redirect('/');
+        }
+
+        // 3. Si todo está bien, continuamos a la siguiente función (showCalendar o infoHabito)
+        next();
+    } catch (error) {
+        console.error("Error en middleware de verificación:", error);
+        return res.status(500).send("Error interno del servidor.");
+    }
+};
+
 // Mostrar página del calendario (HTML estático)
 exports.showCalendar = (req, res) => {
     res.sendFile(path.join(__dirname, '../../views/calendar.html'));
