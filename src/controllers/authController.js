@@ -19,12 +19,13 @@ exports.registerUser = async (req, res) => {
     
     // Revisar que se hayan llenado los campos
     if (!username || !email || !password) {
-        return res.status(400).send('Faltan campos requeridos.');
+        return res.status(400).json({ success: false, message: 'Todos los campos son requeridos.' });
     }
 
     // Revisar que la contraseña contenga más de 8 caracteres
-    if (!password || password.length < 8)
-        return res.send('La contraseña debe tener más de 8 caracteres. <a href="/auth/register">Volver</a>')
+    if (password.length < 8) {
+        return res.status(400).json({ success: false, message: 'La contraseña debe tener al menos 8 caracteres.' });
+    }
 
     try {
         // Hashear la contraseña
@@ -35,10 +36,13 @@ exports.registerUser = async (req, res) => {
             [username, email, hashedPassword]
         );
 
-        res.send('Usuario registrado! <a href="/auth/login">Ir a login</a>');
+        res.status(201).json({ success: true, message: '¡Usuario registrado exitosamente!' });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error al registrar usuario. Posiblemente ya existe.');
+        if (err.code === '23505') { // Código de error de PostgreSQL para violación de unicidad
+            return res.status(409).json({ success: false, message: 'El correo electrónico o el nombre de usuario ya existen.' });
+        }
+        res.status(500).json({ success: false, message: 'Error interno del servidor al registrar el usuario.' });
     }
 };
 
