@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/respiración.css">
     <link rel="stylesheet" href="/css/layout.css">
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
     
@@ -98,13 +101,20 @@
                     <% habits.forEach(habit => { %> 
                         <div class="habit-row">
                             <div class="habit-name">
-                                <button 
-                                    class="btn-ver-habito" 
-                                    onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
-                                    title="Ver calendario detallado de <%= habit.name %>"
-                                >
-                                    <%= habit.name %>
-                                </button>
+                                <!-- Contenedor para alinear nombre y botones -->
+                                <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">
+                                    <button 
+                                        class="btn-ver-habito" 
+                                        onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
+                                        title="Ver calendario detallado de <%= habit.name %>"
+                                    >
+                                        <%= habit.name %>
+                                    </button>
+                                    <!-- NUEVO: Botón de Gráficos -->
+                                    <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                    </a>
+                                </div>
                             </div>
 
                             <div class="habit-days">
