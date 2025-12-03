@@ -74,6 +74,17 @@
 
         <!-- VISTA 2: DASHBOARD (Usuario SI logueado) -->
         <main class="container">
+            <!-- NUEVO: Bloque de Check-in -->
+            <div class="checkin-prompt-container">
+                <div class="checkin-text">
+                    <h2>Hola, <%= user.username %></h2>
+                    <p>¿Cómo te sientes hoy?</p>
+                </div>
+                <a href="/checkin" class="btn-checkin">
+                    Ingresar check-in
+                </a>
+            </div>
+
             <div class="main-actions">
                 <p class="add-habit-invite">Presiona el botón para agregar un hábito nuevo.</p>
                 <button id="add-habit-btn" class="add-habit-btn-main">+</button>
@@ -91,18 +102,27 @@
                 <div class="grid-names-col">
                     <div class="grid-header habit-name-header">Hábito</div>
                     <% habits.forEach(habit => { %>
-                        <div class="habit-row habit-name" data-row-id="<%= habit.id %>">
-                            <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">
+                        <div class="habit-row habit-name" data-row-id="<%= habit.id %>" style="display: flex; align-items: center; gap: 10px;">
+                            <!-- Círculo de color -->
+                            <span class="habit-color-dot" data-row-id="<%= habit.id %>" style="width: 12px; height: 12px; background-color: <%= habit.color %>; border-radius: 50%; flex-shrink: 0;"></span>
+                            
+                            <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">    
                                 <button 
                                     class="btn-ver-habito" 
                                     onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
                                     title="Ver calendario detallado de <%= habit.name %>"
+                                    style="color: <%= habit.color %>;"
                                 >
                                     <%= habit.name %>
                                 </button>
-                                <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </a>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <button class="btn-edit-color btn-ver-habito" data-habit-id="<%= habit.id %>" data-current-color="<%= habit.color %>" title="Editar color de <%= habit.name %>" style="text-decoration: none; padding: 0;">
+                                        <i class="fa-solid fa-palette"></i>
+                                    </button>
+                                    <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     <% }) %>
@@ -128,9 +148,17 @@
                                 <div class="habit-days">
                                     <% dates.forEach(dateString => { %>
                                         <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
+                                        <% 
+                                            let style = '';
+                                            if (isCompleted) {
+                                                const checkSvg = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(habit.color)}' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e")`;
+                                                style = `background-image: ${checkSvg}; background-color: ${habit.color}20;`;
+                                            }
+                                        %>
                                         <% const date = new Date(dateString + 'T00:00:00'); %>
                                         <div 
                                             class="day-check <%= isCompleted ? 'completed' : '' %> <%= date.getDate() === 1 ? 'new-month-start' : '' %>"
+                                            style="<%= style %>"
                                             data-habit-id="<%= habit.id %>"
                                             data-date="<%= dateString %>"
                                             role="button"
@@ -172,6 +200,11 @@
                         <label for="habitDescription">Descripción (Opcional)</label>
                         <textarea id="habitDescription" name="habitDescription" rows="3" placeholder="Ej: Estudiar por al menos 30 minutos"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="hidden" id="habitColor" name="habitColor" value="#5383cb">
+                        <div class="color-swatch-container" id="add-color-swatches"></div>
+                    </div>
                     <div class="modal-actions">
                         <button type="button" id="cancel-btn">Cancelar</button>
                         <button type="submit">Guardar Hábito</button>
@@ -179,6 +212,25 @@
                 </form>
             </div>
         </div>
+
+        <div id="edit-color-modal" class="modal-backdrop hidden">
+            <div class="modal-content">
+                <h2>Editar Color del Hábito</h2>
+                <form id="edit-color-form">
+                    <input type="hidden" id="edit-color-habit-id">
+                    <div class="form-group">
+                        <label>Nuevo Color</label>
+                        <input type="hidden" id="editColorHiddenInput" name="habitColor">
+                        <div class="color-swatch-container" id="edit-color-swatches"></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" id="cancel-edit-color-btn">Cancelar</button>
+                        <button type="submit">Guardar Color</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <div id="health-modal" class="modal-backdrop hidden">
             <div class="modal-content modal-no-padding" style="max-width: 500px; position: relative; overflow: hidden;">

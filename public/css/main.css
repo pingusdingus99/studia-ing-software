@@ -2,7 +2,7 @@
 .container {
     padding: 2rem;
     max-width: 1000px;
-    max-width: 1400px; /* Aumentado para usar más espacio horizontal */
+    max-width: 1600px; /* Aumentado para usar más espacio horizontal */
     margin: 0 auto;
     width: 100%;
     flex: 1; /* Ocupa el espacio restante */
@@ -101,6 +101,63 @@
     .hero-buttons { justify-content: center; }
     .hero-image-col { justify-content: center; width: 100%; }
     .hero-title { font-size: 2.5rem; }
+}
+
+/* --- NUEVO: BLOQUE DE CHECK-IN --- */
+.checkin-prompt-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    margin-bottom: 2rem;
+    /* NUEVO: Ajustes de ancho y alineación */
+    width: 50%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.checkin-text h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.checkin-text p {
+    margin: 4px 0 0 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.btn-checkin {
+    background-color: var(--secondary-blue); /* Azul más intenso para mejor contraste */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-checkin:hover { 
+    background-color: var(--primary-hover); /* Usamos el hover definido globalmente */
+}
+
+/* --- RESPONSIVE CHECK-IN --- */
+@media (max-width: 768px) {
+    .checkin-prompt-container {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem; /* Espacio entre el texto y el botón */
+    }
+    .btn-checkin {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 /* --- ESTILOS HÁBITOS (DASHBOARD) --- */
@@ -294,10 +351,10 @@
 }
 
 .day-check.completed {
-    background-color: #e7f5ff; /* Fondo azul claro para el estado completado */
-    /* Icono de CHECK (✓) azul */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d6efd' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+    /* El color de fondo y el ícono ahora se aplican dinámicamente con JS/EJS */
     background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .day-check.completed:hover {
@@ -359,4 +416,51 @@
 .modal-actions button[type="submit"] {
     background-color: var(--secondary-blue);
     color: white; border-color: var(--secondary-blue);
+}
+
+/* Estilos para el input de color */
+.color-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-picker-group input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.color-picker-group input[type="color"]::-webkit-color-swatch { border-radius: 50%; border: 1px solid #ddd; }
+.color-picker-group input[type="color"]::-moz-color-swatch { border-radius: 50%; border: 1px solid #ddd; }
+
+/* Estilos para la nueva paleta de colores */
+.color-swatch-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: content-box; /* Asegura que el borde no afecte el tamaño */
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.selected {
+    border-color: #e0e0e0;
+    box-shadow: 0 0 0 2px var(--text-main);
 }

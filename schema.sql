@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS habits (
   user_id INTEGER NOT NULL,
   name VARCHAR(100) NOT NULL,
   description TEXT,
+  color VARCHAR(7) DEFAULT '#5383cb', -- Color en formato HEX (ej: #RRGGBB)
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -235,8 +235,12 @@
       const data = await res.json();
 
       if (res.ok) {
-        resp.textContent = '✓ Check-in guardado correctamente';
+        resp.textContent = '✓ Check-in guardado. Redirigiendo...';
         resp.style.color = 'green';
+        // Espera 1 segundo y luego redirige a la página principal
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
       } else {
         resp.textContent = data.detail || 'Error al registrar.';
         resp.style.color = 'red';
