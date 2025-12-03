@@ -55,4 +55,29 @@ const addHabit = async (req, res) => {
     }
 };
 
-module.exports = { toggleHabit, addHabit };
+const deleteHabit = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.session.user.id;
+
+    if (!id) {
+        return res.status(400).json({ success: false, message: 'ID del hábito no proporcionado.' });
+    }
+
+    try {
+        const deleteResult = await db.query(
+            'DELETE FROM habits WHERE id = $1 AND user_id = $2',
+            [id, userId]
+        );
+
+        if (deleteResult.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Hábito no encontrado o no autorizado para eliminar.' });
+        }
+
+        res.json({ success: true, message: 'Hábito eliminado correctamente.' });
+    } catch (err) {
+        console.error('Error al eliminar el hábito:', err);
+        res.status(500).json({ success: false, message: 'Error interno del servidor.' });
+    }
+};
+
+module.exports = { toggleHabit, addHabit, deleteHabit };
