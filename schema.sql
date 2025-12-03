@@ -24,3 +24,16 @@ CREATE TABLE IF NOT EXISTS habit_completions (
   UNIQUE (habit_id, completion_date), -- Asegura que un hábito solo se pueda completar una vez por día
   status BOOLEAN 
 );
+
+CREATE TABLE IF NOT EXISTS checkins (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    mood INTEGER NOT NULL CHECK (mood BETWEEN 1 AND 5),
+    emoji TEXT,
+    reflection TEXT,
+    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);

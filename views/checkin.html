@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Check-in de Ánimo</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #FAEEE5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      width: 430px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #7d6752;
+      font-size: 1.7rem;
+      margin-bottom: 25px;
+    }
+
+    .mood-cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .mood-cards input { display: none; }
+
+    .mood-cards label {
+      background-color: #F8EDEB;
+      color: #7d6752;
+      padding: 15px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 20px;
+      transition: 0.3s;
+    }
+
+    .mood-cards input:checked + label {
+      background-color: #DBC0E7;
+      transform: scale(1.15);
+      color: white;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7d6752;
+      margin-bottom: 20px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #C9E6EE;
+      padding: 10px;
+      resize: none;
+      margin-bottom: 25px;
+      color: #7d6752;
+      font-family: inherit;
+    }
+
+    .emoji-cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .emoji-card {
+      background: #F8EDEB;
+      border-radius: 12px;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: 0.25s;
+      font-size: 22px;
+      color: #7d6752;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .emoji-card:hover {
+      transform: scale(1.08);
+    }
+
+    .emoji-card input {
+      display: none;
+    }
+
+    .emoji-card.selected {
+      background-color: #DBC0E7;
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    .emoji-label {
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    button {
+      background-color: #C9E6EE;
+      color: #7d6752;
+      border: none;
+      padding: 12px 0;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #DBC0E7;
+      color: #fff;
+    }
+
+    #response {
+      margin-top: 12px;
+      color: #7d6752;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>¿Cómo te sientes hoy?</h1>
+
+  <form id="checkinForm">
+
+    <div class="mood-cards">
+      <input type="radio" id="m1" name="mood" value="1"><label for="m1">1</label>
+      <input type="radio" id="m2" name="mood" value="2"><label for="m2">2</label>
+      <input type="radio" id="m3" name="mood" value="3"><label for="m3">3</label>
+      <input type="radio" id="m4" name="mood" value="4"><label for="m4">4</label>
+      <input type="radio" id="m5" name="mood" value="5"><label for="m5">5</label>
+    </div>
+
+    <div class="scale-labels">
+      <span>Muy mal</span>
+      <span>Neutral</span>
+      <span>Excelente</span>
+    </div>
+
+    <label style="color:#7d6752; font-size:15px; margin-bottom: 8px; display:block;">
+      ¿Algo para contar hoy?
+    </label>
+    <textarea id="reflection" name="reflection" rows="3" placeholder="Escribe aquí tu reflexión..."></textarea>
+
+    <div class="emoji-cards">
+
+      <label class="emoji-card"><input type="radio" name="emoji" value="😀"><span>😀</span><div class="emoji-label">Alegre</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😅"><span>😅</span><div class="emoji-label">Aliviado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😔"><span>😔</span><div class="emoji-label">Triste</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😠"><span>😠</span><div class="emoji-label">Molesto</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="🥳"><span>🥳</span><div class="emoji-label">Entusiasmado</div></label>
+
+      <label class="emoji-card"><input type="radio" name="emoji" value="😴"><span>😴</span><div class="emoji-label">Cansado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="🤔"><span>🤔</span><div class="emoji-label">Pensativo</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="🥰"><span>🥰</span><div class="emoji-label">Agradecido</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😨"><span>😨</span><div class="emoji-label">Con miedo</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😟"><span>😟</span><div class="emoji-label">Agobiado</div></label>
+
+      <label class="emoji-card"><input type="radio" name="emoji" value="😇"><span>😇</span><div class="emoji-label">Tranquilo</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😎"><span>😎</span><div class="emoji-label">Motivado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😕"><span>😕</span><div class="emoji-label">Confundido</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😞"><span>😞</span><div class="emoji-label">Desanimado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😍"><span>😍</span><div class="emoji-label">Cariñoso</div></label>
+
+      <label class="emoji-card"><input type="radio" name="emoji" value="😡"><span>😡</span><div class="emoji-label">Frustrado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😤"><span>😤</span><div class="emoji-label">Irritado</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="🤪"><span>🤪</span><div class="emoji-label">Divertido</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="😬"><span>😬</span><div class="emoji-label">Nervioso</div></label>
+      <label class="emoji-card"><input type="radio" name="emoji" value="🥺"><span>🥺</span><div class="emoji-label">Sensiblón</div></label>
+
+    </div>
+
+    <button type="submit">Registrar Check-in</button>
+  </form>
+
+  <p id="response"></p>
+</div>
+
+<script>
+  document.querySelectorAll('.emoji-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.emoji-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input').checked = true;
+    });
+  });
+
+  document.getElementById('checkinForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const mood = document.querySelector("input[name='mood']:checked");
+    const emoji = document.querySelector("input[name='emoji']:checked");
+    const reflection = document.getElementById('reflection').value;
+
+    const resp = document.getElementById('response');
+
+    if (!mood || !emoji) {
+      resp.textContent = 'Por favor selecciona ánimo y emoji.';
+      resp.style.color = 'red';
+      return;
+    }
+
+    try {
+      const res = await fetch('/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mood: mood.value,
+          emoji: emoji.value,
+          reflection
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        resp.textContent = '✓ Check-in guardado correctamente';
+        resp.style.color = 'green';
+      } else {
+        resp.textContent = data.detail || 'Error al registrar.';
+        resp.style.color = 'red';
+      }
+
+    } catch (err) {
+      resp.textContent = 'Error de conexión.';
+      resp.style.color = 'red';
+    }
+  });
+</script>
+
+</body>
+</html>

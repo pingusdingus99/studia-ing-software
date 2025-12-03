@@ -41,6 +41,8 @@ const habitRoutes = require('./src/routes/habitRoutes');
 const calendarRoutes = require('./src/routes/calendarRoutes');
 const methodsRoutes = require('./src/routes/methods');
 const saludMentalRoutes = require('./src/routes/saludMental');
+const checkinRoutes = require('./src/routes/checkin');
+
 
 
 app.use('/', mainRoutes);
@@ -50,6 +52,8 @@ app.use('/calendar', calendarRoutes);
 app.use('/api', calendarRoutes);
 app.use('/methods', methodsRoutes);
 app.use('/mentalHealth', saludMentalRoutes);
+app.use('/checkin', checkinRoutes);
+
 
 // Levantar el servidor
 app.listen(PORT, () => {
