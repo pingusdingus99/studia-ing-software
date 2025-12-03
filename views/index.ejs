@@ -113,20 +113,24 @@
                     <div class="grid-header days-header">
                         <% dates.forEach(dateString => { %>
                             <% const date = new Date(dateString + 'T00:00:00'); %>
-                            <div class="day-label">
-                                <span class="day-label-weekday"><%= date.toLocaleDateString('es-ES', { weekday: 'short' }) %></span>
+                            <% const isFirstDayOfMonth = date.getDate() === 1; %>
+                            <div class="day-label <%= isFirstDayOfMonth ? 'new-month-start' : '' %>">
+                                <span class="day-label-text">
+                                    <%= isFirstDayOfMonth ? date.toLocaleDateString('es-ES', { month: 'short' }) : date.toLocaleDateString('es-ES', { weekday: 'short' }) %>
+                                </span>
                                 <span class="day-label-day"><%= date.getDate() %></span>
                             </div>
                         <% }) %>
                     </div>
                     <% habits.forEach(habit => { %>
                         <div class="habit-row" data-row-id="<%= habit.id %>">
-                            <div class="habit-days">
+                            <div class="habit-days" data-row-id="<%= habit.id %>">
                                 <div class="habit-days">
                                     <% dates.forEach(dateString => { %>
                                         <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
+                                        <% const date = new Date(dateString + 'T00:00:00'); %>
                                         <div 
-                                            class="day-check <%= isCompleted ? 'completed' : '' %>"
+                                            class="day-check <%= isCompleted ? 'completed' : '' %> <%= date.getDate() === 1 ? 'new-month-start' : '' %>"
                                             data-habit-id="<%= habit.id %>"
                                             data-date="<%= dateString %>"
                                             role="button"

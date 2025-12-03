@@ -2,6 +2,7 @@
 .container {
     padding: 2rem;
     max-width: 1000px;
+    max-width: 1400px; /* Aumentado para usar más espacio horizontal */
     margin: 0 auto;
     width: 100%;
     flex: 1; /* Ocupa el espacio restante */
@@ -209,9 +210,25 @@
 }
 
 .grid-scroll-wrapper {
-    overflow-x: auto; /* El único scroll horizontal está aquí */
+    overflow-x: auto; /* Mantenemos auto como fallback */
+    overflow-y: hidden; /* Evitamos el scroll vertical no deseado */
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
+    /* Hacemos que la barra de scroll flote sobre el contenido */
+    scrollbar-width: thin; /* Para Firefox */
+    scrollbar-color: #ccc #f1f1f1; /* Para Firefox */
+}
+
+/* Estilos para navegadores Webkit (Chrome, Safari, Edge) */
+.grid-scroll-wrapper::-webkit-scrollbar {
+    height: 8px; /* Altura de la barra de scroll */
+}
+.grid-scroll-wrapper::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+}
+.grid-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Un color semitransparente */
+    border-radius: 10px;
 }
 
 .days-header,
@@ -237,7 +254,19 @@
     border-bottom: 1px solid #eee;
 }
 
-.day-label-weekday { text-transform: capitalize; }
+.day-label-text {
+    text-transform: capitalize; /* Aplica a ambos, weekday y month short */
+}
+
+/* Estilos para el inicio de un nuevo mes */
+.day-label.new-month-start {
+    background-color: #e0f2f1; /* Fondo más claro para destacar el inicio del mes */
+    border-left: 2px solid var(--primary-color); /* Borde más pronunciado */
+}
+
+.day-check.new-month-start {
+    border-left: 1px solid #dce0e1; /* Borde sutil para las celdas de día */
+}
 .day-label-day { font-size: 1.1rem; font-weight: bold; }
 
 /* Cabecera de la columna de acciones */

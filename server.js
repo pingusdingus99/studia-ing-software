@@ -41,13 +41,15 @@ const habitRoutes = require('./src/routes/habitRoutes');
 const calendarRoutes = require('./src/routes/calendarRoutes');
 const methodsRoutes = require('./src/routes/methods');
 const saludMentalRoutes = require('./src/routes/saludMental');
+const apiRoutes = require('./src/routes/apiRoutes'); // <-- NUEVA RUTA DE API
 
 
 app.use('/', mainRoutes);
 app.use('/auth', authRoutes);
 app.use('/habits', habitRoutes);
 app.use('/calendar', calendarRoutes);
-app.use('/api', calendarRoutes);
+app.use('/api', calendarRoutes); // Mantenemos las rutas de calendario existentes en /api
+app.use('/api', apiRoutes); // <-- AÑADIMOS LAS NUEVAS RUTAS DE API
 app.use('/methods', methodsRoutes);
 app.use('/mentalHealth', saludMentalRoutes);
 

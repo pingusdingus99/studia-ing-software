@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container'); // Usamos un contenedor más general
+    const gridScrollWrapper = document.querySelector('.grid-scroll-wrapper');
     const addHabitBtn = document.getElementById('add-habit-btn');
     const modal = document.getElementById('add-habit-modal');
     const cancelBtn = document.getElementById('cancel-btn');
@@ -87,6 +88,95 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Error:', error);
                         alert('No se pudo eliminar el hábito. Inténtalo de nuevo.');
                     }
+                }
+            }
+        });
+    }
+
+    // --- LÓGICA DE SCROLL INFINITO ---
+    let isLoading = false; // Flag para evitar cargas múltiples simultáneas
+    let allHabits = []; // Almacenaremos los hábitos aquí para no pedirlos de nuevo
+
+    if (gridScrollWrapper) {
+        // Guardamos los hábitos iniciales que vienen de EJS
+        document.querySelectorAll('.habit-row.habit-name').forEach(row => {
+            allHabits.push({
+                id: row.dataset.rowId,
+                name: row.querySelector('.btn-ver-habito').textContent.trim()
+            });
+        });
+
+        gridScrollWrapper.addEventListener('scroll', async () => {
+            // Si ya estamos cargando o no hay hábitos, no hacemos nada
+            if (isLoading || allHabits.length === 0) return;
+
+            const { scrollLeft, scrollWidth, clientWidth } = gridScrollWrapper;
+
+            // Detectamos si el usuario está cerca del final del scroll (ej. a 300px del final)
+            if (scrollWidth - scrollLeft - clientWidth < 300) {
+                isLoading = true;
+
+                // Contamos cuántos días ya están cargados en la cabecera
+                const currentDayCount = document.querySelectorAll('.days-header .day-label').length;
+
+                try {
+                    // Pedimos más datos a nuestra nueva API, indicando el offset
+                    const response = await fetch(`/api/more-habits-data?offset=${currentDayCount}`);
+                    if (!response.ok) {
+                        throw new Error('No se pudieron cargar más días.');
+                    }
+                    const data = await response.json();
+
+                    if (data.success && data.dates.length > 0) {
+                        // Referencias a los contenedores donde añadiremos el nuevo HTML
+                        const daysHeader = document.querySelector('.days-header');
+                        
+                        // 1. Añadir las nuevas cabeceras de días
+                        data.dates.forEach(dateString => {
+                            const date = new Date(dateString + 'T00:00:00');
+                            const isFirstDayOfMonth = date.getDate() === 1;
+                            const monthOrWeekday = isFirstDayOfMonth ? date.toLocaleDateString('es-ES', { month: 'short' }) : date.toLocaleDateString('es-ES', { weekday: 'short' });
+                            const dayLabelHTML = `
+                                <div class="day-label ${isFirstDayOfMonth ? 'new-month-start' : ''}">
+                                    <span class="day-label-text">
+                                        ${monthOrWeekday}
+                                    </span>
+                                    <span class="day-label-day">${date.getDate()}</span>
+                                </div>
+                            `;
+                            daysHeader.insertAdjacentHTML('beforeend', dayLabelHTML);
+                        });
+
+                        // 2. Añadir los nuevos `day-check` a cada fila de hábito
+                        allHabits.forEach(habit => {
+                            const habitDaysRow = document.querySelector(`.habit-days[data-row-id="${habit.id}"] .habit-days`);
+                            if (habitDaysRow) {
+                                let daysHTML = '';
+                                data.dates.forEach(dateString => {
+                                    const date = new Date(dateString + 'T00:00:00');
+                                    const isCompleted = data.completionsMap[`${habit.id}-${dateString}`];
+                                    daysHTML += `
+                                        <div 
+                                            class="day-check ${isCompleted ? 'completed' : ''} ${date.getDate() === 1 ? 'new-month-start' : ''}"
+                                            data-habit-id="${habit.id}"
+                                            data-date="${dateString}"
+                                            role="button"
+                                            tabindex="0"
+                                        ></div>
+                                    `;
+                                });
+                                habitDaysRow.insertAdjacentHTML('beforeend', daysHTML);
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error en scroll infinito:", error);
+                    // Podrías mostrar un mensaje al usuario si falla la carga
+                } finally {
+                    // Esperamos un poco antes de permitir la siguiente carga para evitar llamadas muy seguidas
+                    setTimeout(() => {
+                        isLoading = false;
+                    }, 200);
                 }
             }
         });
