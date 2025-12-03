@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studia - Habit Tracker</title>
-    <!-- Fuentes para que coincida con el estilo moderno -->
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/respiración.css">
-    <link rel="stylesheet" href="/css/layout.css">
-    <!-- Font Awesome para íconos -->
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -20,14 +22,44 @@
     
     <!-- Header General -->
     <header class="app-header">
-        <h1><a href="/" style="color: inherit; text-decoration: none;">Studia</a></h1>
+        
+        <!-- ZONA IZQUIERDA: Hamburguesa + Logo -->
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <% if (user) { %>
+                <!-- Contenedor relativo para que el menú se posicione respecto a este botón -->
+                <div style="position: relative;">
+                    <button id="hamburger-btn" class="hamburger-btn" aria-label="Menú">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <!-- Menú Desplegable (Alineado a la izquierda ahora) -->
+                    <div id="dropdown-menu" class="dropdown-menu" style="left: 0; right: auto; margin-top: 10px;">
+                        <!-- Opción Respiración -->
+                        <a href="#" id="open-health-btn">
+                            <i class="fa-solid fa-lungs"></i> Ejercicios Respiración
+                        </a>
+                        
+                        <!-- Opción Métodos -->
+                        <a href="/methods/methods">
+                            <i class="fa-solid fa-book-open"></i> Métodos de Estudio
+                        </a>
+                        
+                        <!-- Opción Biblioteca -->
+                        <a href="/mentalHealth/mentalHealth">
+                            <i class="fa-solid fa-heart-pulse"></i> Biblioteca de Apoyo
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+
+            <h1><a href="/" style="color: inherit; text-decoration: none;">Studia</a></h1>
+        </div>
+
+        <!-- ZONA DERECHA: Saludo + Logout -->
         <nav>
             <% if (user) { %>
                 <span class="user-greeting">Hola, <%= user.username %></span>
-                <a href="#" id="open-health-btn" class="health-link">Respiración</a>
-                <a href="/methods/methods" id="open-health-btn" class="health-link">Métodos de Estudio</a>
-                <a href="/mentalHealth/mentalHealth" id="open-health-btn" class="health-link">Biblioteca de Apoyo</a>
-                <a href="/auth/logout" class="health-link">Cerrar Sesión</a>
+                <a href="/auth/logout" class="nav-btn-secondary" style="margin-left: 10px;">Cerrar Sesión</a>
             <% } else { %>
                 <a href="/auth/login" class="nav-link">Login</a>
                 <a href="/auth/register" class="nav-link">Registro</a>
@@ -38,8 +70,7 @@
     <!-- LÓGICA DE VISTAS -->
     
     <% if (!user) { %>
-        <!-- VISTA 1: LANDING PAGE (Usuario NO logueado) -->
-        <!-- Esta sección ocupa todo el ancho, fuera del contenedor normal -->
+        <!-- VISTA 1: LANDING PAGE -->
         <div class="landing-hero">
             <div class="hero-content">
                 <div class="hero-text-col">
@@ -51,15 +82,12 @@
                         Studia te ayuda a organizar tu día, hacer seguimiento de tus tareas y cuidar tu bienestar emocional en un solo lugar.
                     </p>
                     <div class="hero-buttons">
-                        <!-- Usamos el estilo "Registro" como botón principal -->
                         <a href="/auth/register" class="btn-hero-primary">Comenzar ahora</a>
                         <a href="/auth/login" class="btn-hero-secondary">Iniciar sesión</a>
                     </div>
                 </div>
                 
                 <div class="hero-image-col">
-                    <!-- IMAGEN IMPLEMENTADA -->
-                    <!-- Se han añadido estilos inline para mantener la estética de sombra y bordes -->
                     <img 
                         src="/img/habito.png" 
                         alt="Vista previa de Studia" 
@@ -72,7 +100,7 @@
 
     <% } else { %>
 
-        <!-- VISTA 2: DASHBOARD (Usuario SI logueado) -->
+        <!-- VISTA 2: DASHBOARD -->
         <main class="container">
             <div class="main-actions">
                 <p class="add-habit-invite">Presiona el botón para agregar un hábito nuevo.</p>
@@ -101,7 +129,6 @@
                     <% habits.forEach(habit => { %> 
                         <div class="habit-row">
                             <div class="habit-name">
-                                <!-- Contenedor para alinear nombre y botones -->
                                 <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">
                                     <button 
                                         class="btn-ver-habito" 
@@ -110,7 +137,6 @@
                                     >
                                         <%= habit.name %>
                                     </button>
-                                    <!-- NUEVO: Botón de Gráficos -->
                                     <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
                                         <i class="fa-solid fa-chart-line"></i>
                                     </a>
@@ -136,7 +162,7 @@
             </div>
         </main>
 
-        <!-- Modales (Solo se cargan si hay usuario) -->
+        <!-- Modales -->
         <div id="add-habit-modal" class="modal-backdrop hidden">
             <div class="modal-content">
                 <h2>Añadir Nuevo Hábito</h2>
@@ -198,5 +224,30 @@
 
 <% if (user) { %>
     <script src="/js/respiración.js"></script>
+    
+    <!-- Script para el menú hamburguesa -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            if (hamburgerBtn && dropdownMenu) {
+                // Toggle menú al hacer click
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evita que el click cierre inmediatamente el menú
+                    dropdownMenu.classList.toggle('show');
+                    hamburgerBtn.classList.toggle('active');
+                });
+
+                // Cerrar menú al hacer click fuera
+                document.addEventListener('click', (e) => {
+                    if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                        hamburgerBtn.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 <% } %>
 </html>

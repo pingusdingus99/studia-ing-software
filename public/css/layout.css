@@ -1,9 +1,9 @@
 /* --- VARIABLES GLOBALES --- */
 :root {
-    --primary-color: #5383cb;      /* Teal Studia (Color principal) */
-    --primary-hover: #3a68ad;      /* Oscuro para hover */
-    --primary-light: #e0f2f1;      /* Fondo suave */
-    --secondary-blue: #5383cb;     /* Azul de la Landing Page */
+    --primary-color: #5383cb;      
+    --primary-hover: #3a68ad;    
+    --primary-light: #e0f2f1;
+    --secondary-blue: #5383cb;
     
     --text-main: #241c15;
     --text-muted: #595959;
@@ -25,29 +25,25 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-body);
     color: var(--text-main);
-    
-    /* Estructura Flex Vertical (Sticky Footer pattern) */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* --- HEADER ESTÁNDAR (Compartido) --- */
+/* --- HEADER ESTÁNDAR --- */
 .app-header {
     background-color: var(--white);
-    height: var(--header-height); /* Altura consistente */
-    padding: 0 2rem;              /* Espaciado lateral estándar */
+    height: var(--header-height);
+    padding: 0 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Borde sutil, puedes quitarlo si prefieres limpieza total */
     border-bottom: 1px solid #dce0e1; 
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-/* Logo Studia */
 .app-header h1 {
     font-family: 'Merriweather', serif;
     font-size: 1.5rem;
@@ -70,11 +66,12 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
+    position: relative; /* Importante para posicionar el menú desplegable */
 }
 
 .app-header nav a {
     text-decoration: none;
-    color: var(--text-main); /* Color base neutro */
+    color: var(--text-main);
     font-weight: 500;
     font-size: 0.95rem;
     transition: color 0.2s;
@@ -84,7 +81,84 @@ body {
     color: var(--primary-color);
 }
 
-/* Clases utilitarias para el header */
+/* Saludo de usuario */
+.user-greeting {
+    font-weight: 600;
+    color: #555;
+    margin-right: 10px;
+}
+
+/* --- MENÚ HAMBURGUESA --- */
+.hamburger-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-btn:hover, .hamburger-btn.active {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+/* El menú desplegable */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;       /* Justo debajo del nav */
+    right: 0;        /* Alineado a la derecha */
+    margin-top: 15px; 
+    background-color: var(--white);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    width: 220px;
+    display: none;   /* Oculto por defecto */
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 200;
+}
+
+/* Mostrar cuando tiene la clase 'show' */
+.dropdown-menu.show {
+    display: flex;
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Enlaces dentro del menú */
+.dropdown-menu a {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #fafafa;
+    color: var(--primary-color);
+    padding-left: 25px; /* Pequeño efecto de desplazamiento */
+}
+
+/* Animación de entrada */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Utilidades */
 .nav-link-back {
     color: var(--primary-color) !important;
     font-weight: 600;
