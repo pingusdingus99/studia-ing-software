@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Habit Tracker</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎯 Habit Tracker</h2>
+                <p id="userName"></p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard.html" class="active">📊 Dashboard</a></li>
+                <li><a href="/calendar.html">📅 Calendario</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <!-- Check-in Emocional -->
+            <section class="emotional-checkin">
+                <h2>¿Cómo te sientes hoy?</h2>
+                <div class="emotion-buttons">
+                    <button class="emotion-btn" data-emotion="muy-feliz" title="Muy Feliz">😄</button>
+                    <button class="emotion-btn" data-emotion="feliz" title="Feliz">😊</button>
+                    <button class="emotion-btn" data-emotion="neutral" title="Neutral">😐</button>
+                    <button class="emotion-btn" data-emotion="triste" title="Triste">😔</button>
+                    <button class="emotion-btn" data-emotion="muy-triste" title="Muy Triste">😢</button>
+                </div>
+                <p id="emotionMessage" class="emotion-message"></p>
+            </section>
+
+            <!-- Añadir Nuevo Hábito -->
+            <section class="add-habit-section">
+                <h2>Añadir Nuevo Hábito</h2>
+                <form id="addHabitForm" class="add-habit-form">
+                    <div class="form-row">
+                        <input type="text" id="habitName" placeholder="Nombre del hábito" required>
+                        <input type="text" id="habitDescription" placeholder="Descripción (opcional)">
+                        <input type="color" id="habitColor" value="#3B82F6">
+                        <button type="submit" class="btn btn-primary">➕ Añadir</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Lista de Hábitos -->
+            <section class="habits-section">
+                <h2>Mis Hábitos de Hoy</h2>
+                <div id="habitsList" class="habits-list"></div>
+            </section>
+
+            <!-- Estadísticas Semanales -->
+            <section class="stats-section">
+                <h2>Cumplimiento Semanal</h2>
+                <div class="chart-container">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
