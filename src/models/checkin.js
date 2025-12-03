@@ -1,17 +1,34 @@
+// src/models/checkin.js
 const pool = require('./db');
-
 
 class Checkin {
   static async create(user_id, mood, emoji, reflection) {
+    // 🔍 1. Verificar si ya existe un check-in hoy para este usuario
+    const checkToday = await pool.query(
+      `SELECT id FROM checkins 
+       WHERE user_id = $1 
+       AND fecha = CURRENT_DATE`,
+      [user_id]
+    );
+
+    if (checkToday.rows.length > 0) {
+      const error = new Error('Ya realizaste un check-in hoy 🗓️. Vuelve mañana 🙂');
+      error.code = 'CHECKIN_DUPLICADO';
+      throw error;
+    }
+
+    // 📝 2. Crear nuevo check-in
     const result = await pool.query(
-      `INSERT INTO checkins (user_id, mood, emoji, reflection)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO checkins (user_id, mood, emoji, reflection, fecha)
+       VALUES ($1, $2, $3, $4, CURRENT_DATE)
        RETURNING *`,
       [user_id, mood, emoji, reflection]
     );
+
     return result.rows[0];
   }
 
+  // 📅 Obtener check-in del día
   static async getToday(user_id) {
     const result = await pool.query(
       `SELECT * FROM checkins
