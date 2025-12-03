@@ -91,7 +91,7 @@ main {
 /* --- TÍTULO DEL HÁBITO --- */
 .habit-title-container {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 0; /* Quitamos el margen inferior aquí */
     animation: fadeInDown 0.6s ease;
 }
 
@@ -122,6 +122,35 @@ main {
     bottom: -10px;
     left: 20%; /* Centrado */
     border-radius: 2px;
+}
+
+/* NUEVO: Estilo para la descripción del hábito */
+.habit-description-display {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-top: 25px; /* Aumentamos el margen superior para dejar espacio al subrayado */
+    margin-bottom: 30px;
+    max-width: 600px;
+    text-align: center; /* Asegura que el texto esté centrado si es corto */
+
+    /* --- NUEVO: Lógica de scroll --- */
+    line-height: 1.6; /* Altura de línea consistente */
+    max-height: calc(1rem * 1.6 * 3); /* Altura máxima de 3 líneas */
+    overflow-y: auto; /* Muestra scrollbar solo si el contenido excede la altura */
+    padding-right: 10px; /* Espacio para que el scroll no tape el texto */
+    white-space: pre-wrap; /* Respeta los saltos de línea del textarea */
+}
+
+/* Estilo opcional para la barra de scroll (navegadores Webkit) */
+.habit-description-display::-webkit-scrollbar {
+  width: 8px;
+}
+.habit-description-display::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+.habit-description-display::-webkit-scrollbar-thumb {
+  background-color: #dce0e1;
+  border-radius: 10px;
 }
 
 /* --- CALENDARIO (Ajustes menores) --- */

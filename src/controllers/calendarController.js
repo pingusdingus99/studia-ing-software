@@ -43,24 +43,24 @@ exports.infoHabito = async (req, res) => {
     try {
         const id = req.params.id;
         
-        // 1. Obtener el NOMBRE del hábito
-        const habitQuery = 'SELECT name FROM habits WHERE id = $1';
+        // 1. Obtener el NOMBRE y DESCRIPCIÓN del hábito
+        const habitQuery = 'SELECT name, description FROM habits WHERE id = $1';
         const habitResult = await db.query(habitQuery, [id]);
 
         if (habitResult.rows.length === 0) {
             return res.status(404).json({ mensaje: "Hábito no encontrado" });
         }
 
-        const habitName = habitResult.rows[0].name;
+        const { name, description } = habitResult.rows[0];
 
         // 2. Obtener los REGISTROS de completitud
         const completionsQuery = 'SELECT completion_date, status FROM habit_completions WHERE habit_id = $1';
         const completionsResult = await db.query(completionsQuery, [id]);
 
         // 3. Enviar respuesta unificada
-        // Devolvemos un objeto con ambas cosas: el nombre y el array de registros
         res.json({
-            name: habitName,
+            name: name,
+            description: description,
             completions: completionsResult.rows
         }); 
 
@@ -76,11 +76,11 @@ exports.getHabitStats = async (req, res) => {
         const { id } = req.params;
         const { period = 'month' } = req.query; // 'week', 'month', 'year'
 
-        const habitResult = await db.query('SELECT name, created_at FROM habits WHERE id = $1', [id]);
+        const habitResult = await db.query('SELECT name, description, created_at FROM habits WHERE id = $1', [id]);
         if (habitResult.rows.length === 0) {
             return res.status(404).json({ message: "Hábito no encontrado" });
         }
-        const { name, created_at } = habitResult.rows[0];
+        const { name, description, created_at } = habitResult.rows[0];
 
         // --- CORRECCIÓN: Obtener los registros de completado ANTES de los cálculos ---
         const completionsResult = await db.query(
@@ -173,7 +173,7 @@ exports.getHabitStats = async (req, res) => {
             });
         }
 
-        res.json({ name, labels, data, period });
+        res.json({ name, description, labels, data, period });
     } catch (error) {
         console.error("Error al obtener estadísticas:", error);
         res.status(500).json({ message: "Error interno del servidor" });

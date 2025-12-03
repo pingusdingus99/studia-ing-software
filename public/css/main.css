@@ -151,30 +151,74 @@
     text-decoration: underline;
 }
 
+/* NUEVO: Estilos para la columna y botón de eliminar */
+.habit-actions {
+    width: 60px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #eee;
+}
+
+.btn-delete-habit {
+    background: none;
+    border: none;
+    color: #adb5bd;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 10px;
+    transition: color 0.2s;
+}
+
+.btn-delete-habit:hover {
+    color: #e03131; /* Rojo al pasar el mouse */
+}
+
 /* Estilos de la Tabla (Grid) */
 .habits-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(150px, 250px) 1fr auto; /* Nombre (flexible) | Días (ocupa el resto) | Acciones (auto) */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow-x: auto; 
+    border: 1px solid #eee;
+    overflow: hidden; /* Clave para que los bordes redondeados funcionen */
 }
 
-.grid-header, .habit-row {
+.grid-header {
+    font-weight: bold;
+    background-color: #f8f9fa;
+}
+
+.grid-header,
+.habit-row {
+    display: contents; /* Permite que los hijos se posicionen en la grid principal */
+}
+
+.habit-name-header, .habit-name {
+    padding: 1rem;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eee;
 }
 
-.habit-name-header, .habit-name {
-    flex: 1;
-    padding: 1rem;
-    font-weight: bold;
-    min-width: 150px;
+.grid-names-col, .grid-actions-col {
+    display: flex;
+    flex-direction: column;
 }
 
-.days-header, .habit-days { display: flex; }
+.grid-scroll-wrapper {
+    overflow-x: auto; /* El único scroll horizontal está aquí */
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.days-header,
+.habit-days {
+    display: flex;
+    min-width: fit-content; /* Asegura que el contenido interno no se comprima */
+}
 
 .day-label, .day-check {
     width: 50px;
@@ -182,7 +226,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid #eee;
+    border-right: 1px solid #eee; /* Borde entre días */
 }
 
 .day-label {
@@ -190,10 +234,20 @@
     color: #666;
     flex-direction: column;
     line-height: 1.2;
+    border-bottom: 1px solid #eee;
 }
 
 .day-label-weekday { text-transform: capitalize; }
 .day-label-day { font-size: 1.1rem; font-weight: bold; }
+
+/* Cabecera de la columna de acciones */
+.habit-actions-header {
+    width: 60px; /* Mismo ancho que la columna de acciones */
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .day-check {
     cursor: pointer;
@@ -224,6 +278,7 @@
 .empty-state {
     padding: 2rem;
     text-align: center;
+    grid-column: 1 / -1; /* Ocupa todas las columnas */
     color: #888;
 }
 

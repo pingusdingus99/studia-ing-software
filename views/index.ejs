@@ -79,10 +79,38 @@
                 <button id="add-habit-btn" class="add-habit-btn-main">+</button>
             </div>
             
+            <% if (habits.length === 0) { %>
+                <div class="habits-grid">
+                    <div class="empty-state" style="border: none;">
+                        <p>Aún no tienes hábitos. ¡Crea uno nuevo con el botón +!</p>
+                    </div>
+                </div>
+            <% } else { %>
             <div class="habits-grid">
-                <div class="grid-header">
-                    <div class="habit-name-header">Hábito (Click para detalle)</div>
-                    <div class="days-header">
+                <!-- COLUMNA 1: NOMBRES DE HÁBITOS (FIJA) -->
+                <div class="grid-names-col">
+                    <div class="grid-header habit-name-header">Hábito</div>
+                    <% habits.forEach(habit => { %>
+                        <div class="habit-row habit-name" data-row-id="<%= habit.id %>">
+                            <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">
+                                <button 
+                                    class="btn-ver-habito" 
+                                    onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
+                                    title="Ver calendario detallado de <%= habit.name %>"
+                                >
+                                    <%= habit.name %>
+                                </button>
+                                <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+
+                <!-- COLUMNA 2: DÍAS (CON SCROLL) -->
+                <div class="grid-scroll-wrapper">
+                    <div class="grid-header days-header">
                         <% dates.forEach(dateString => { %>
                             <% const date = new Date(dateString + 'T00:00:00'); %>
                             <div class="day-label">
@@ -91,49 +119,40 @@
                             </div>
                         <% }) %>
                     </div>
-                </div>
-                <div class="grid-body">
-                    <% if (habits.length === 0) { %>
-                        <div class="empty-state">
-                            <p>Aún no tienes hábitos. ¡Crea uno nuevo con el botón +!</p>
-                        </div>
-                    <% } %>
-                    <% habits.forEach(habit => { %> 
-                        <div class="habit-row">
-                            <div class="habit-name">
-                                <!-- Contenedor para alinear nombre y botones -->
-                                <div style="display: flex; align-items: center; gap: 15px; justify-content: space-between; width: 100%;">
-                                    <button 
-                                        class="btn-ver-habito" 
-                                        onclick="window.location.href='/calendar/calendarioHabitos?id=<%= habit.id %>'"
-                                        title="Ver calendario detallado de <%= habit.name %>"
-                                    >
-                                        <%= habit.name %>
-                                    </button>
-                                    <!-- NUEVO: Botón de Gráficos -->
-                                    <a href="/calendar/habitGraphic?id=<%= habit.id %>" class="btn-ver-habito" title="Ver estadísticas de <%= habit.name %>" style="text-decoration: none;">
-                                        <i class="fa-solid fa-chart-line"></i>
-                                    </a>
-                                </div>
-                            </div>
-
+                    <% habits.forEach(habit => { %>
+                        <div class="habit-row" data-row-id="<%= habit.id %>">
                             <div class="habit-days">
-                                <% dates.forEach(dateString => { %>
-                                    <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
-                                    <div 
-                                        class="day-check <%= isCompleted ? 'completed' : '' %>"
-                                        data-habit-id="<%= habit.id %>"
-                                        data-date="<%= dateString %>"
-                                        role="button"
-                                        tabindex="0"
-                                    >
-                                    </div> 
-                                <% }) %>
+                                <div class="habit-days">
+                                    <% dates.forEach(dateString => { %>
+                                        <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
+                                        <div 
+                                            class="day-check <%= isCompleted ? 'completed' : '' %>"
+                                            data-habit-id="<%= habit.id %>"
+                                            data-date="<%= dateString %>"
+                                            role="button"
+                                            tabindex="0"
+                                        ></div> 
+                                    <% }) %>
+                                </div>
                             </div>
                         </div>
                     <% }) %>
                 </div>
+
+                <!-- COLUMNA 3: ACCIONES (FIJA) -->
+                <div class="grid-actions-col">
+                    <!-- La cabecera ahora está aquí para alinearla correctamente -->
+                    <div class="grid-header habit-actions-header" style="border-bottom: 1px solid #eee;">Acción</div>
+                    <% habits.forEach(habit => { %>
+                        <div class="habit-row habit-actions" data-row-id="<%= habit.id %>">
+                            <button class="btn-delete-habit" data-habit-id="<%= habit.id %>" title="Eliminar hábito: <%= habit.name %>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
+            <% } %>
         </main>
 
         <!-- Modales (Solo se cargan si hay usuario) -->
