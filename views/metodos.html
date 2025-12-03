@@ -5,26 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Métodos de Estudio - Studia</title>
     
-    <!-- Fuentes Studia -->
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Estilos -->
-    <link rel="stylesheet" href="/css/methods.css">
     <link rel="stylesheet" href="/css/layout.css">
-    <!-- Font Awesome para flechitas -->
+    <link rel="stylesheet" href="/css/methods.css">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Header consistente -->
+    <!-- HEADER CON MENÚ HAMBURGUESA IZQUIERDO -->
     <header class="app-header">
-        <h1><a href="/">Studia</a></h1>
+        
+        <!-- ZONA IZQUIERDA -->
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="position: relative;">
+                <button id="hamburger-btn" class="hamburger-btn" aria-label="Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div id="dropdown-menu" class="dropdown-menu" style="left: 0; right: auto; margin-top: 10px;">
+                    <a href="/">
+                        <i class="fa-solid fa-lungs"></i> Ejercicios Respiración
+                    </a>
+                    <a href="/methods/methods">
+                        <i class="fa-solid fa-book-open"></i> Métodos de Estudio
+                    </a>
+                    <a href="/mentalHealth/mentalHealth">
+                        <i class="fa-solid fa-heart-pulse"></i> Biblioteca de Apoyo
+                    </a>
+                </div>
+            </div>
+
+            <h1><a href="/" style="color: inherit; text-decoration: none;">Studia</a></h1>
+        </div>
+
+        <!-- ZONA DERECHA -->
         <nav>
-            <a href="/" class="nav-link-back">
-                <a href="/auth/logout">Cerrar Sesión</a>
-            </a>
+            <a href="/auth/logout" class="nav-btn-secondary">Cerrar Sesión</a>
         </nav>
     </header>
 
@@ -166,12 +189,30 @@
 
     <script>
         function toggleMethod(headerElement) {
-            // Buscamos el elemento padre (.method-item)
             const item = headerElement.parentElement;
-            
-            // Alternamos la clase 'active'
             item.classList.toggle('active');
         }
+
+        // Lógica del Menú Hamburguesa
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            if (hamburgerBtn && dropdownMenu) {
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                    hamburgerBtn.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                        hamburgerBtn.classList.remove('active');
+                    }
+                });
+            }
+        });
     </script>
 
 </body>

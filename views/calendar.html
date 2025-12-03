@@ -13,12 +13,36 @@
 </head>
 <body>
 
-    <!-- HEADER INTEGRADO -->
+    <!-- HEADER CON MENÚ HAMBURGUESA IZQUIERDO -->
     <header class="app-header">
-        <h1><a href="/" class="nav-back-link">Studia</a></h1>
-        <nav>            
-            <!-- Estos enlaces son estáticos porque es un HTML -->
-            <a href="/auth/logout">Cerrar Sesión</a>
+        
+        <!-- ZONA IZQUIERDA -->
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="position: relative;">
+                <button id="hamburger-btn" class="hamburger-btn" aria-label="Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div id="dropdown-menu" class="dropdown-menu" style="left: 0; right: auto; margin-top: 10px;">
+                    <!-- Nota: El modal de respiración está en index, así que dirigimos al inicio -->
+                    <a href="/">
+                        <i class="fa-solid fa-lungs"></i> Ejercicios Respiración
+                    </a>
+                    <a href="/methods/methods">
+                        <i class="fa-solid fa-book-open"></i> Métodos de Estudio
+                    </a>
+                    <a href="/mentalHealth/mentalHealth">
+                        <i class="fa-solid fa-heart-pulse"></i> Biblioteca de Apoyo
+                    </a>
+                </div>
+            </div>
+
+            <h1><a href="/" style="color: inherit; text-decoration: none;">Studia</a></h1>
+        </div>
+
+        <!-- ZONA DERECHA -->
+        <nav>
+            <a href="/auth/logout" class="nav-btn-secondary">Cerrar Sesión</a>
         </nav>
     </header>
 
@@ -55,5 +79,27 @@
     </main>
 
     <script src="/js/calendar.js"></script>
+    <!-- Lógica del Menú Hamburguesa -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            if (hamburgerBtn && dropdownMenu) {
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                    hamburgerBtn.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                        hamburgerBtn.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
