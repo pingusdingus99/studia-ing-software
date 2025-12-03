@@ -3,6 +3,7 @@ const datesElement = document.getElementById('dates');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const habitTitleElement = document.getElementById('habit-name-title'); // Referencia al título
+const habitDescriptionElement = document.getElementById('habit-description'); // NUEVO: Referencia a la descripción
 
 let currentDate = new Date();
 let currentRegistros = [];
@@ -86,6 +87,10 @@ async function cargarYpintarHabito(id) {
             if (habitTitleElement && data.name) {
                 habitTitleElement.textContent = data.name;
                 document.title = `Calendario: ${data.name} - Studia`; // Actualizar título pestaña
+            }
+            // NUEVO: Actualizamos la descripción
+            if (habitDescriptionElement && data.description) {
+                habitDescriptionElement.textContent = data.description;
             }
 
             // 2. Guardamos los registros para el calendario

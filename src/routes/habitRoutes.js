@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { toggleHabit, addHabit } = require('../controllers/habitController');
+const { toggleHabit, addHabit, deleteHabit, updateHabitColor } = require('../controllers/habitController');
 
 // Middleware para proteger rutas que requieren autenticación
 const isAuthenticated = (req, res, next) => {
@@ -12,5 +12,7 @@ const isAuthenticated = (req, res, next) => {
 
 router.post('/toggle', isAuthenticated, toggleHabit);
 router.post('/add', isAuthenticated, addHabit);
+router.delete('/:id', isAuthenticated, deleteHabit);
+router.put('/:id/color', isAuthenticated, updateHabitColor); // NUEVA RUTA PARA EDITAR COLOR
 
 module.exports = router;

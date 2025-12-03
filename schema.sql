@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS habits (
   user_id INTEGER NOT NULL,
   name VARCHAR(100) NOT NULL,
   description TEXT,
+  color VARCHAR(7) DEFAULT '#5383cb', -- Color en formato HEX (ej: #RRGGBB)
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -23,4 +24,17 @@ CREATE TABLE IF NOT EXISTS habit_completions (
   FOREIGN KEY (habit_id) REFERENCES habits(id) ON DELETE CASCADE,
   UNIQUE (habit_id, completion_date), -- Asegura que un hábito solo se pueda completar una vez por día
   status BOOLEAN 
+);
+
+CREATE TABLE IF NOT EXISTS checkins (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    mood INTEGER NOT NULL CHECK (mood BETWEEN 1 AND 5),
+    emoji TEXT,
+    reflection TEXT,
+    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );

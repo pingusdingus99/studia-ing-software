@@ -15,14 +15,15 @@ const homePage = async (req, res) => {
         const habitsResult = await db.query('SELECT * FROM habits WHERE user_id = $1 ORDER BY created_at DESC', [userId]);
         const habits = habitsResult.rows;
 
-        // Generar los últimos 30 días para permitir el scroll
-        const dates = Array.from({ length: 30 }).map((_, i) => {
+        // Generar los últimos 30 días iniciales
+        const initialDays = 30;
+        const dates = Array.from({ length: initialDays }).map((_, i) => {
             const date = new Date();
             date.setDate(date.getDate() - i);
             return date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
         });
 
-        // 3. Obtener los registros de completado de los últimos 7 días
+        // 3. Obtener los registros de completado para los días iniciales
         const completionsResult = await db.query(
             'SELECT habit_id, completion_date FROM habit_completions WHERE habit_id IN (SELECT id FROM habits WHERE user_id = $1) AND completion_date >= $2',
             [userId, dates[dates.length - 1]]

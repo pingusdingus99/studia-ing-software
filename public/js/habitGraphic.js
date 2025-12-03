@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const habitTitleElement = document.getElementById('habit-name-title');
     const ctx = document.getElementById('habitChart')?.getContext('2d');
+    const habitDescriptionElement = document.getElementById('habit-description'); // NUEVO: Referencia a la descripción
     const periodSelector = document.querySelector('.period-selector');
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -67,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (habitTitleElement) {
                 habitTitleElement.textContent = data.name;
                 document.title = `Estadísticas: ${data.name} - Studia`;
+            }
+            // NUEVO: Actualizamos la descripción
+            if (habitDescriptionElement && data.description) {
+                habitDescriptionElement.textContent = data.description;
             }
             
             renderChart(data);
