@@ -284,73 +284,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- LÓGICA DE SCROLL INFINITO ---
-    let isLoading = false; // Flag para evitar cargas múltiples simultáneas
-    let allHabits = []; // Almacenaremos los hábitos aquí para no pedirlos de nuevo
-    const gridScrollWrapper = document.querySelector('.grid-scroll-wrapper');
+    const habitsGridScrollWrapper = document.getElementById('habits-grid-scroll-wrapper');
+    const checkinGridScrollWrapper = document.getElementById('checkin-grid-scroll-wrapper');
 
-    if (gridScrollWrapper) {
+    // Scroll infinito para la tabla de HÁBITOS
+    if (habitsGridScrollWrapper) {
+        let isLoading = false;
+        let allHabits = []; // Almacenaremos los hábitos aquí para no pedirlos de nuevo
+
         // Guardamos los hábitos iniciales que vienen de EJS
         document.querySelectorAll('.habit-row.habit-name').forEach(row => {
-            allHabits.push({
-                id: row.dataset.rowId,
-                name: row.querySelector('.btn-ver-habito').textContent.trim()
-            });
+            const habitId = row.dataset.rowId;
+            const habitNameElement = row.querySelector('.btn-ver-habito');
+            if (habitId && habitNameElement) {
+                allHabits.push({
+                    id: habitId,
+                    name: habitNameElement.textContent.trim()
+                });
+            }
         });
 
-        gridScrollWrapper.addEventListener('scroll', async () => {
-            // Si ya estamos cargando o no hay hábitos, no hacemos nada
+        habitsGridScrollWrapper.addEventListener('scroll', async () => {
             if (isLoading || allHabits.length === 0) return;
 
-            const { scrollLeft, scrollWidth, clientWidth } = gridScrollWrapper;
+            const { scrollLeft, scrollWidth, clientWidth } = habitsGridScrollWrapper;
 
-            // Detectamos si el usuario está cerca del final del scroll (ej. a 300px del final)
             if (scrollWidth - scrollLeft - clientWidth < 300) {
                 isLoading = true;
 
-                // Contamos cuántos días ya están cargados en la cabecera
-                const currentDayCount = document.querySelectorAll('.days-header .day-label').length;
+                const currentDayCount = habitsGridScrollWrapper.querySelectorAll('.days-header .day-label').length;
 
                 try {
-                    // Pedimos más datos a nuestra nueva API, indicando el offset
                     const response = await fetch(`/api/more-habits-data?offset=${currentDayCount}`);
-                    if (!response.ok) {
-                        throw new Error('No se pudieron cargar más días.');
-                    }
+                    if (!response.ok) throw new Error('No se pudieron cargar más días.');
+                    
                     const data = await response.json();
 
                     if (data.success && data.dates.length > 0) {
-                        // Referencias a los contenedores donde añadiremos el nuevo HTML
-                        const daysHeader = document.querySelector('.days-header');
+                        const daysHeader = habitsGridScrollWrapper.querySelector('.days-header');
                         
-                        // 1. Añadir las nuevas cabeceras de días
+                        let headerHTML = '';
                         data.dates.forEach(dateString => {
                             const date = new Date(dateString + 'T00:00:00');
                             const isFirstDayOfMonth = date.getDate() === 1;
                             const monthOrWeekday = isFirstDayOfMonth ? date.toLocaleDateString('es-ES', { month: 'short' }) : date.toLocaleDateString('es-ES', { weekday: 'short' });
-                            const dayLabelHTML = `
+                            headerHTML += `
                                 <div class="day-label ${isFirstDayOfMonth ? 'new-month-start' : ''}">
-                                    <span class="day-label-text">
-                                        ${monthOrWeekday}
-                                    </span>
+                                    <span class="day-label-text">${monthOrWeekday}</span>
                                     <span class="day-label-day">${date.getDate()}</span>
                                 </div>
                             `;
-                            daysHeader.insertAdjacentHTML('beforeend', dayLabelHTML);
                         });
+                        daysHeader.insertAdjacentHTML('beforeend', headerHTML);
 
-                        // 2. Añadir los nuevos `day-check` a cada fila de hábito
                         allHabits.forEach(habit => {
-                            const habitDaysRow = document.querySelector(`.habit-days[data-row-id="${habit.id}"] .habit-days`);
+                            const habitDaysRow = document.querySelector(`.habit-days[data-row-id="${habit.id}"]`);
                             if (habitDaysRow) {
                                 let daysHTML = '';
                                 data.dates.forEach(dateString => {
                                     const date = new Date(dateString + 'T00:00:00');
                                     const isCompleted = data.completionsMap[`${habit.id}-${dateString}`];
+                                    const habitColor = document.querySelector(`.btn-edit-color[data-habit-id="${habit.id}"]`).dataset.currentColor;
+                                    let style = '';
+                                    if (isCompleted) {
+                                        style = `background-image: ${createCheckSvg(habitColor)}; background-color: ${habitColor}20;`;
+                                    }
                                     daysHTML += `
                                         <div 
-                                            class="day-check ${isCompleted ? 'completed' : ''} ${date.getDate() === 1 ? 'new-month-start' : ''}"
+                                            class="day-check ${isCompleted ? 'completed' : ''}"
                                             data-habit-id="${habit.id}"
                                             data-date="${dateString}"
+                                            style="${style}"
                                             role="button"
                                             tabindex="0"
                                         ></div>
@@ -362,12 +366,63 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } catch (error) {
                     console.error("Error en scroll infinito:", error);
-                    // Podrías mostrar un mensaje al usuario si falla la carga
                 } finally {
-                    // Esperamos un poco antes de permitir la siguiente carga para evitar llamadas muy seguidas
-                    setTimeout(() => {
-                        isLoading = false;
-                    }, 200);
+                    setTimeout(() => { isLoading = false; }, 200);
+                }
+            }
+        });
+    }
+
+    // Scroll infinito para la tabla de CHECK-INS
+    if (checkinGridScrollWrapper) {
+        let isCheckinLoading = false;
+
+        checkinGridScrollWrapper.addEventListener('scroll', async () => {
+            if (isCheckinLoading) return;
+
+            const { scrollLeft, scrollWidth, clientWidth } = checkinGridScrollWrapper;
+
+            if (scrollWidth - scrollLeft - clientWidth < 300) {
+                isCheckinLoading = true;
+
+                const currentDayCount = checkinGridScrollWrapper.querySelectorAll('.days-header .day-label').length;
+
+                try {
+                    const response = await fetch(`/api/more-checkins-data?offset=${currentDayCount}`);
+                    if (!response.ok) throw new Error('No se pudieron cargar más check-ins.');
+                    
+                    const data = await response.json();
+
+                    if (data.success && data.dates.length > 0) {
+                        const daysHeader = checkinGridScrollWrapper.querySelector('.days-header');
+                        const checkinDaysRow = checkinGridScrollWrapper.querySelector('.habit-days');
+
+                        let headerHTML = '';
+                        let daysHTML = '';
+
+                        data.dates.forEach(dateString => {
+                            const date = new Date(dateString + 'T00:00:00');
+                            const isFirstDayOfMonth = date.getDate() === 1;
+                            const monthOrWeekday = isFirstDayOfMonth ? date.toLocaleDateString('es-ES', { month: 'short' }) : date.toLocaleDateString('es-ES', { weekday: 'short' });
+                            
+                            headerHTML += `
+                                <div class="day-label ${isFirstDayOfMonth ? 'new-month-start' : ''}">
+                                    <span class="day-label-text">${monthOrWeekday}</span>
+                                    <span class="day-label-day">${date.getDate()}</span>
+                                </div>
+                            `;
+
+                            const emoji = data.checkinsMap[dateString] || '';
+                            daysHTML += `<div class="day-check checkin-emoji-cell ${emoji ? 'has-content' : ''}" data-date="${dateString}" style="font-size: 1.5rem; background-image: none !important;">${emoji}</div>`;
+                        });
+
+                        daysHeader.insertAdjacentHTML('beforeend', headerHTML);
+                        checkinDaysRow.insertAdjacentHTML('beforeend', daysHTML);
+                    }
+                } catch (error) {
+                    console.error("Error en scroll infinito de check-ins:", error);
+                } finally {
+                    setTimeout(() => { isCheckinLoading = false; }, 200);
                 }
             }
         });

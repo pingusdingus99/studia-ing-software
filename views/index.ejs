@@ -96,7 +96,7 @@
                 </div>
 
                 <!-- Columna Scrollable: Días -->
-                <div class="grid-scroll-wrapper">
+                <div class="grid-scroll-wrapper" id="checkin-grid-scroll-wrapper">
                     <div class="grid-header days-header">
                         <% dates.forEach(dateString => { %>
                             <% const date = new Date(dateString + 'T00:00:00'); %>
@@ -169,7 +169,7 @@
                 </div>
 
                 <!-- COLUMNA 2: DÍAS (CON SCROLL) -->
-                <div class="grid-scroll-wrapper">
+                <div class="grid-scroll-wrapper" id="habits-grid-scroll-wrapper">
                     <div class="grid-header days-header">
                         <% dates.forEach(dateString => { %>
                             <% const date = new Date(dateString + 'T00:00:00'); %>
@@ -185,27 +185,24 @@
                     <% habits.forEach(habit => { %>
                         <div class="habit-row" data-row-id="<%= habit.id %>">
                             <div class="habit-days" data-row-id="<%= habit.id %>">
-                                <div class="habit-days">
-                                    <% dates.forEach(dateString => { %>
-                                        <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
-                                        <% 
-                                            let style = '';
-                                            if (isCompleted) {
-                                                const checkSvg = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(habit.color)}' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e")`;
-                                                style = `background-image: ${checkSvg}; background-color: ${habit.color}20;`;
-                                            }
-                                        %>
-                                        <% const date = new Date(dateString + 'T00:00:00'); %>
-                                        <div 
-                                            class="day-check <%= isCompleted ? 'completed' : '' %> <%= date.getDate() === 1 ? 'new-month-start' : '' %>"
-                                            style="<%= style %>"
-                                            data-habit-id="<%= habit.id %>"
-                                            data-date="<%= dateString %>"
-                                            role="button"
-                                            tabindex="0"
-                                        ></div> 
-                                    <% }) %>
-                                </div>
+                                <% dates.forEach(dateString => { %>
+                                    <% const isCompleted = completionsMap[`${habit.id}-${dateString}`]; %>
+                                    <% 
+                                        let style = '';
+                                        if (isCompleted) {
+                                            const checkSvg = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(habit.color)}' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e")`;
+                                            style = `background-image: ${checkSvg}; background-color: ${habit.color}20;`;
+                                        }
+                                    %>
+                                    <div 
+                                        class="day-check <%= isCompleted ? 'completed' : '' %>"
+                                        style="<%= style %>"
+                                        data-habit-id="<%= habit.id %>"
+                                        data-date="<%= dateString %>"
+                                        role="button"
+                                        tabindex="0"
+                                    ></div> 
+                                <% }) %>
                             </div>
                         </div>
                     <% }) %>
