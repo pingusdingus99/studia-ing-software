@@ -361,6 +361,17 @@
     background-color: #d0ebff; /* Un azul un poco más oscuro al pasar el mouse */
 }
 
+/* NUEVO: Estilos para el hover en la tabla de check-in */
+.checkin-emoji-cell.has-content {
+    cursor: pointer;
+}
+
+.checkin-emoji-cell.has-content:hover {
+    background-color: #e9ecef !important; /* Usamos !important para sobreescribir estilos inline */
+    border-radius: 4px;
+    transform: scale(1.1);
+}
+
 .empty-state {
     padding: 2rem;
     text-align: center;
@@ -416,6 +427,31 @@
 .modal-actions button[type="submit"] {
     background-color: var(--secondary-blue);
     color: white; border-color: var(--secondary-blue);
+}
+
+/* NUEVO: Estilos para el modal de detalles de check-in */
+.checkin-details-content {
+    margin-top: 1.5rem;
+}
+
+.detail-item {
+    margin-bottom: 1rem;
+}
+
+.detail-item label {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.detail-item p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.reflection-text {
+    white-space: pre-wrap; /* Respeta saltos de línea */
 }
 
 /* Estilos para el input de color */

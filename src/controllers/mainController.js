@@ -1,11 +1,12 @@
 const path = require('path');
 const db = require('../models/db');
+const Checkin = require('../models/checkin');
 
 const homePage = async (req, res) => {
     // 1. Verificar si el usuario está logueado
     if (!req.session.user) {
         // Si no está logueado, renderiza la página sin datos de hábitos
-        return res.render('index', { user: null, habits: [], dates: [], completionsMap: {} });
+        return res.render('index', { user: null, habits: [], dates: [], completionsMap: {}, checkinsMap: {} });
     }
 
     try {
@@ -38,8 +39,20 @@ const homePage = async (req, res) => {
             completionsMap[key] = true;
         });
 
+        // 4. Obtener los check-ins para el mismo rango de fechas
+        const checkinsResult = await Checkin.getForDateRange(userId, dates[dates.length - 1], dates[0]);
+
+        // Crear un mapa para buscar eficientemente el emoji de un día
+        // La clave será "YYYY-MM-DD"
+        const checkinsMap = {};
+        checkinsResult.forEach(row => {
+            const date = new Date(row.fecha).toISOString().split('T')[0];
+            checkinsMap[date] = row.emoji;
+        });
+
+
         // 4. Pasar los datos a la vista
-        res.render('index', { user: req.session.user, habits, dates, completionsMap });
+        res.render('index', { user: req.session.user, habits, dates, completionsMap, checkinsMap });
 
     } catch (err) {
         console.error('Error al obtener los datos de la página principal:', err);

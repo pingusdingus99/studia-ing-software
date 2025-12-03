@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const editColorModal = document.getElementById('edit-color-modal');
     const cancelEditColorBtn = document.getElementById('cancel-edit-color-btn');
     const cancelBtn = document.getElementById('cancel-btn');
+    // NUEVO: Referencias para el modal de check-in
+    const checkinDetailsModal = document.getElementById('checkin-details-modal');
+    const closeCheckinModalBtn = document.getElementById('close-checkin-modal-btn');
+
+
 
     // Lógica para mostrar/ocultar el modal de agregar hábito
     if (addHabitBtn && modal && cancelBtn) {
@@ -47,6 +52,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // NUEVO: Lógica para mostrar/ocultar el modal de detalles de check-in
+    if (checkinDetailsModal && closeCheckinModalBtn) {
+        const closeCheckinModal = () => checkinDetailsModal.classList.add('hidden');
+
+        closeCheckinModalBtn.addEventListener('click', closeCheckinModal);
+
+        checkinDetailsModal.addEventListener('click', (event) => {
+            if (event.target === checkinDetailsModal) {
+                closeCheckinModal();
+            }
+        });
+    }
+
+
 
     // --- Lógica para los selectores de color ---
     const setupColorPicker = (containerId, hiddenInputId) => {
@@ -93,6 +113,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // dentro del dashboard, incluyendo los botones de la grilla.
     document.body.addEventListener('click', async (event) => {
             const target = event.target;
+
+            // NUEVO: Lógica para el clic en un emoji de check-in
+            const checkinCell = target.closest('.checkin-emoji-cell.has-content');
+            if (checkinCell) {
+                const date = checkinCell.dataset.date;
+                if (!date) return;
+
+                try {
+                    const response = await fetch(`/api/checkin-details/${date}`);
+                    if (!response.ok) throw new Error('No se pudo cargar la información del check-in.');
+
+                    const result = await response.json();
+                    if (result.success) {
+                        const { mood, reflection, fecha } = result.data;
+                        
+                        // Formatear la fecha para el título
+                        const formattedDate = new Date(fecha).toLocaleDateString('es-ES', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                        });
+
+                        // Rellenar el modal
+                        document.getElementById('checkin-modal-title').textContent = `Detalles del ${formattedDate}`;
+                        document.getElementById('checkin-modal-mood').textContent = `${mood} / 5`;
+                        const reflectionP = document.getElementById('checkin-modal-reflection');
+                        reflectionP.textContent = reflection || 'No se registró una reflexión.';
+                        reflectionP.style.fontStyle = reflection ? 'normal' : 'italic';
+
+                        // Mostrar el modal
+                        checkinDetailsModal.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error al obtener detalles del check-in:', error);
+                }
+            }
+
             const dayCheck = target.closest('.day-check'); // Correcta delegación de eventos
 
             if (dayCheck) {

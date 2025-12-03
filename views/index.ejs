@@ -85,6 +85,46 @@
                 </a>
             </div>
 
+            <!-- NUEVO: Tabla de Check-in -->
+            <div class="habits-grid" style="margin-top: 2rem; margin-bottom: 2rem;">
+                <!-- Columna Fija: Nombre -->
+                <div class="grid-names-col">
+                    <div class="grid-header habit-name-header">Check-in</div>
+                    <div class="habit-row habit-name" style="font-weight: 500; color: var(--text-muted);">
+                        Estado de Ánimo
+                    </div>
+                </div>
+
+                <!-- Columna Scrollable: Días -->
+                <div class="grid-scroll-wrapper">
+                    <div class="grid-header days-header">
+                        <% dates.forEach(dateString => { %>
+                            <% const date = new Date(dateString + 'T00:00:00'); %>
+                            <% const isFirstDayOfMonth = date.getDate() === 1; %>
+                            <div class="day-label <%= isFirstDayOfMonth ? 'new-month-start' : '' %>">
+                                <span class="day-label-text">
+                                    <%= isFirstDayOfMonth ? date.toLocaleDateString('es-ES', { month: 'short' }) : date.toLocaleDateString('es-ES', { weekday: 'short' }) %>
+                                </span>
+                                <span class="day-label-day"><%= date.getDate() %></span>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div class="habit-row">
+                        <div class="habit-days">
+                            <% dates.forEach(dateString => { %>
+                                <% const emoji = checkinsMap[dateString] || ''; %>
+                                <div 
+                                    class="day-check checkin-emoji-cell <%= emoji ? 'has-content' : '' %>" 
+                                    data-date="<%= dateString %>"
+                                    style="font-size: 1.5rem; background-image: none !important;">
+                                    <%= emoji %>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="main-actions">
                 <p class="add-habit-invite">Presiona el botón para agregar un hábito nuevo.</p>
                 <button id="add-habit-btn" class="add-habit-btn-main">+</button>
@@ -231,6 +271,25 @@
             </div>
         </div>
 
+        <!-- NUEVO: Modal para detalles de Check-in -->
+        <div id="checkin-details-modal" class="modal-backdrop hidden">
+            <div class="modal-content">
+                <h2 id="checkin-modal-title">Detalles del Check-in</h2>
+                <div class="checkin-details-content">
+                    <div class="detail-item">
+                        <label>Puntuación de Ánimo</label>
+                        <p id="checkin-modal-mood">-</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Reflexión</label>
+                        <p id="checkin-modal-reflection" class="reflection-text">No se registró una reflexión.</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="close-checkin-modal-btn">Cerrar</button>
+                </div>
+            </div>
+        </div>
 
         <div id="health-modal" class="modal-backdrop hidden">
             <div class="modal-content modal-no-padding" style="max-width: 500px; position: relative; overflow: hidden;">

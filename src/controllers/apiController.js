@@ -1,5 +1,6 @@
 const db = require('../models/db');
-
+const Checkin = require('../models/checkin');
+ 
 /**
  * @description Proporciona datos paginados para el scroll infinito de la página principal.
  */
@@ -44,6 +45,31 @@ exports.getMoreHabitsData = async (req, res) => {
         res.json({ success: true, dates, completionsMap });
     } catch (err) {
         console.error('Error al obtener más datos de hábitos:', err);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+};
+
+/**
+ * @description Obtiene los detalles de un check-in para una fecha específica.
+ */
+exports.getCheckinDetails = async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ success: false, message: 'No autenticado' });
+    }
+
+    try {
+        const userId = req.session.user.id;
+        const { date } = req.params;
+
+        const checkinData = await Checkin.getByDate(userId, date);
+
+        if (!checkinData) {
+            return res.status(404).json({ success: false, message: 'No se encontró un check-in para esta fecha.' });
+        }
+
+        res.json({ success: true, data: checkinData });
+    } catch (err) {
+        console.error('Error al obtener detalles del check-in:', err);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 };
